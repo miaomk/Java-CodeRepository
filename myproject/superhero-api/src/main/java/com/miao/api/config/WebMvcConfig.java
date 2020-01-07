@@ -22,7 +22,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //注册拦截器
         registry.addInterceptor(userTokenInterceptor())
-                .addPathPatterns("/");
+                .addPathPatterns("/user/modifyUserInfo");
     }
 }

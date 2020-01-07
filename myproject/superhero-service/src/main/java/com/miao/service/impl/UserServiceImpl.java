@@ -55,4 +55,11 @@ public class UserServiceImpl implements UserService {
 
         return usersMapper.selectOneByExample(example);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int modifyUsers(Users users) {
+        //更新用户信息
+        return usersMapper.updateByPrimaryKeySelective(users);
+    }
 }

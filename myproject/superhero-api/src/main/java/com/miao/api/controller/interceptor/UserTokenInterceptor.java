@@ -43,7 +43,7 @@ public class UserTokenInterceptor implements HandlerInterceptor {
         String headerUserToken = request.getHeader("headerUserToken");
 
         if (StringUtils.isNotBlank(headerUserId) && StringUtils.isNotBlank(headerUserToken)) {
-            String redisUserToken = redisOperator.get(REDIS_USER_TOKEN + ":" + headerUserId);
+            String redisUserToken = redisOperator.get(REDIS_USER_TOKEN + "：" + headerUserId);
             //如果redis中没有token，用户已经登出或者不小心被误删
             if (StringUtils.isBlank(redisUserToken)) {
                 returnErrorResponse(response, new ResultInfo().paramsFailure("用户会话过期，请重新登录..."));

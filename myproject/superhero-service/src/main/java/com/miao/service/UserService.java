@@ -40,5 +40,11 @@ public interface UserService {
      */
     Users getUserByUserId(String userId);
 
-
+    /**
+     * 修改用户信息
+     *
+     * @param users 用户信息实体类
+     * @return int
+     */
+    int modifyUsers(Users users);
 }

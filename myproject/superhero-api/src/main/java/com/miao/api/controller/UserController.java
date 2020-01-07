@@ -1,6 +1,7 @@
 package com.miao.api.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.miao.common.utils.*;
 import com.miao.pojo.RegisterLoginUsersBO;
 import com.miao.pojo.Users;
@@ -12,6 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -66,10 +68,10 @@ public class UserController extends BaseController {
 
         //根据openId查询用户是否已经存在,用户已存在则登录,不存在则注册
         Users userByOpenId = userService.getUserByOpenId(openid);
-
+        UsersVO usersVO;
         if (null != userByOpenId) {
-
-            return ResultInfo.success(userByOpenId, "用户已经存在");
+            usersVO = uniqueUserToken(userByOpenId);
+            return ResultInfo.success(usersVO, "用户已经存在");
         } else {
 
             //使用idWork生成唯一主键
@@ -86,7 +88,7 @@ public class UserController extends BaseController {
             userService.insertUsers(user);
 
             //生成token
-            UsersVO usersVO = uniqueUserToken(user);
+            usersVO = uniqueUserToken(user);
 
             return ResultInfo.success(usersVO, "登录成功");
         }
@@ -163,12 +165,31 @@ public class UserController extends BaseController {
 
     }
 
+    /**
+     * 修改用户信息接口
+     *
+     * @param modifiedUserBO 要修改的用户信息
+     * @return ResultInfo
+     */
     @RequestMapping(value = "modifyUserInfo", method = RequestMethod.POST)
     @ApiOperation(value = "修改用户信息接口", notes = "修改用户信息", httpMethod = "POST")
     public ResultInfo modifyUser(@RequestBody ModifiedUserBO modifiedUserBO) {
+        if (StringUtil.isEmpty(modifiedUserBO.getUserId())) {
 
-
-        return ResultInfo.paramsError("参数错误");
+            ResultInfo.paramsError("用户id不能为空");
+        }
+        Integer sex = modifiedUserBO.getSex();
+        //改变sex赋值
+        modifiedUserBO.setSex(sex != 0 ? sex : 2);
+        //赋值
+        Users users = new Users();
+        BeanUtils.copyProperties(modifiedUserBO, users);
+        users.setId(modifiedUserBO.getUserId());
+        //更新
+        userService.modifyUsers(users);
+        //查询最新信息
+        Users userByUserId = userService.getUserByUserId(users.getId());
+        return ResultInfo.success(userByUserId, "修改用户信息成功！");
     }
 
 

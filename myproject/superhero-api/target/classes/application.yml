@@ -1,0 +1,68 @@
+############################## server的配置信息 ###################################
+server:
+  port: 8089                    # 配置访问的端口号
+  servlet:
+    context-path: /superHero-server   # 配置发布的项目名称
+  tomcat:
+    uri-encoding: UTF-8         #配置tomcat的编码格式，用于处理get请求的乱码问题
+  ############################################################
+  #
+  # 配置数据源信息
+  #
+  ############################################################
+spring:
+  datasource: ## 数据源的相关配置
+    type: com.zaxxer.hikari.HikariDataSource  # 数据源HikariCP
+    driver: com.mysql.jdbc.Driver  # MySQL驱动
+    url: jdbc:mysql://47.111.98.119:3306/project?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: wzWYZ2019111!      # ๋阿里云服务器
+    hikari:
+      connection-timeout: 30000 # ๋ੜ等待连接池分配连接的最大时长(毫秒)，超过这个时长还没有可用的连接则发生SQLException，默认30秒
+      maximum-pool-size: 15     # ๋ੜ最大连接数
+      minimum-idle: 5           # ๋ੜ最小连接数
+      auto-commit: true         # 自动提交
+      idle-timeout: 600000      # ๋ੜ一个连接idle状态的最大时长(毫秒)，超时则释放(retired)，默认十分钟
+      pool-name: DatebookHikariCP     # ๋ੜ连接池的名字ള࿰ݷਁ
+      max-lifetime: 28740000    # ๋ੜ一个连接的生命时长(毫秒)，超时而且没有被使用则被释放(retired)，默认30分钟 1800000ms，
+      #   建议设置比数据库超时时长少60秒，
+      #   参考MySQL wait_timeout参数(show variables like '%timeout%';)
+      connection-test-query: SELECT 1 #   连接测试
+  servlet:
+    multipart:
+      max-file-size: 10485760 # ෈文件上传配置   限制10M
+      max-request-size: 10485760 # ෈文件上传配置   限制10M
+  ############################################################
+  #
+  # mybatis 配置
+  #
+  ############################################################
+  redis:
+    host: 47.111.98.119
+    database: 0
+    port: 6379
+    password: wzwyz
+mybatis:
+  type-aliases-package:  com.miao.pojo      #   ํ所有POJO类所在包路径
+  mapper-locations: classpath:mapper/*.xml  #   mapper映射文件
+  ############################################################
+  #
+  # mybatis mapper 配置
+  #
+  ############################################################
+
+#  通用Mapper 配置
+mapper:
+  mappers:  com.miao.my.mapper.MyMapper
+  not-empty: false
+  identity: MYSQL
+
+#     分页插件配置
+pagehelper:
+  support-methods-arguments: false
+  params:  count=countSql
+  helper-dialect: mysql
+  offset-as-page-num: true
+  row-bounds-with-count: true
+  page-size-zero: true
+  reasonable: false

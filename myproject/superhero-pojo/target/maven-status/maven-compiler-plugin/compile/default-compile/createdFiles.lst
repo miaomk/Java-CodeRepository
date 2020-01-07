@@ -1,0 +1,8 @@
+com\miao\pojo\Staff.class
+com\miao\pojo\Movie.class
+com\miao\pojo\StaffMovie.class
+com\miao\pojo\SystemSwitch.class
+com\miao\pojo\Users.class
+com\miao\pojo\bo\MPWXUserBO.class
+com\miao\pojo\PrisedMovie.class
+com\miao\pojo\Carousel.class

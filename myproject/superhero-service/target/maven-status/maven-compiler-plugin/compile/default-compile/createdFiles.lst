@@ -1,0 +1,6 @@
+com\miao\service\MovieService.class
+com\miao\service\CarouselService.class
+com\miao\service\impl\MovieServiceImpl.class
+com\miao\service\impl\UserServiceImpl.class
+com\miao\service\impl\CarouselServiceImpl.class
+com\miao\service\UserService.class

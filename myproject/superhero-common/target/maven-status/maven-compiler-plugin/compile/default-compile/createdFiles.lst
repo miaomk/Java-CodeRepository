@@ -1,0 +1,10 @@
+com\miao\common\utils\MovieEnum.class
+com\miao\common\utils\WeChatUtil.class
+com\miao\common\utils\HttpClientUtil.class
+com\miao\common\utils\PageResult.class
+com\miao\common\utils\ResultInfo.class
+com\miao\common\utils\MPWXConfig.class
+com\miao\common\utils\StatusCode.class
+com\miao\common\utils\JsonUtils.class
+com\miao\common\utils\RedisOperator.class
+com\miao\common\utils\StringUtil.class

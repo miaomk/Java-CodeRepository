@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.BalanceMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Balance" >
+    <id column="balance_id" property="balanceId" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+    <result column="start_date" property="startDate" jdbcType="VARCHAR" />
+    <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+    <result column="order_count" property="orderCount" jdbcType="INTEGER" />
+    <result column="total_turnover" property="totalTurnover" jdbcType="DOUBLE" />
+    <result column="total_income" property="totalIncome" jdbcType="DOUBLE" />
+    <result column="cost" property="cost" jdbcType="DOUBLE" />
+    <result column="profit" property="profit" jdbcType="DOUBLE" />
+    <result column="balance_status" property="balanceStatus" jdbcType="INTEGER" />
+    <result column="activated" property="activated" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="distribute_status" property="distributeStatus" jdbcType="INTEGER" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    balance_id, merchant_id, start_date, end_date, order_count, total_turnover, total_income, 
+    cost, profit, balance_status, activated, deleted, distribute_status, created_date, 
+    updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_balance
+    where balance_id = #{balanceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_balance
+    where balance_id = #{balanceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Balance" >
+    <selectKey resultType="java.lang.Integer" keyProperty="balanceId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_balance (merchant_id, start_date, end_date, 
+      order_count, total_turnover, total_income, 
+      cost, profit, balance_status, 
+      activated, deleted, distribute_status, 
+      created_date, updated_date)
+    values (#{merchantId,jdbcType=INTEGER}, #{startDate,jdbcType=VARCHAR}, #{endDate,jdbcType=VARCHAR}, 
+      #{orderCount,jdbcType=INTEGER}, #{totalTurnover,jdbcType=DOUBLE}, #{totalIncome,jdbcType=DOUBLE}, 
+      #{cost,jdbcType=DOUBLE}, #{profit,jdbcType=DOUBLE}, #{balanceStatus,jdbcType=INTEGER}, 
+      #{activated,jdbcType=INTEGER}, #{deleted,jdbcType=BIT}, #{distributeStatus,jdbcType=INTEGER}, 
+      #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Balance" >
+    <selectKey resultType="java.lang.Integer" keyProperty="balanceId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_balance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="merchantId != null" >
+        merchant_id,
+      </if>
+      <if test="startDate != null" >
+        start_date,
+      </if>
+      <if test="endDate != null" >
+        end_date,
+      </if>
+      <if test="orderCount != null" >
+        order_count,
+      </if>
+      <if test="totalTurnover != null" >
+        total_turnover,
+      </if>
+      <if test="totalIncome != null" >
+        total_income,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="profit != null" >
+        profit,
+      </if>
+      <if test="balanceStatus != null" >
+        balance_status,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="distributeStatus != null" >
+        distribute_status,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="merchantId != null" >
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null" >
+        #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalTurnover != null" >
+        #{totalTurnover,jdbcType=DOUBLE},
+      </if>
+      <if test="totalIncome != null" >
+        #{totalIncome,jdbcType=DOUBLE},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DOUBLE},
+      </if>
+      <if test="profit != null" >
+        #{profit,jdbcType=DOUBLE},
+      </if>
+      <if test="balanceStatus != null" >
+        #{balanceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="distributeStatus != null" >
+        #{distributeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Balance" >
+    update t_balance
+    <set >
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCount != null" >
+        order_count = #{orderCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalTurnover != null" >
+        total_turnover = #{totalTurnover,jdbcType=DOUBLE},
+      </if>
+      <if test="totalIncome != null" >
+        total_income = #{totalIncome,jdbcType=DOUBLE},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DOUBLE},
+      </if>
+      <if test="profit != null" >
+        profit = #{profit,jdbcType=DOUBLE},
+      </if>
+      <if test="balanceStatus != null" >
+        balance_status = #{balanceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="distributeStatus != null" >
+        distribute_status = #{distributeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where balance_id = #{balanceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Balance" >
+    update t_balance
+    set merchant_id = #{merchantId,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=VARCHAR},
+      order_count = #{orderCount,jdbcType=INTEGER},
+      total_turnover = #{totalTurnover,jdbcType=DOUBLE},
+      total_income = #{totalIncome,jdbcType=DOUBLE},
+      cost = #{cost,jdbcType=DOUBLE},
+      profit = #{profit,jdbcType=DOUBLE},
+      balance_status = #{balanceStatus,jdbcType=INTEGER},
+      activated = #{activated,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=BIT},
+      distribute_status = #{distributeStatus,jdbcType=INTEGER},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where balance_id = #{balanceId,jdbcType=INTEGER}
+  </update>
+  <select id="countTotal" resultType="java.lang.Integer">
+		select count(b.balance_id) from t_balance b
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and b.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="selectBalanceList" resultMap="BaseResultMap">
+		select b.* from t_balance b
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and b.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+</mapper>

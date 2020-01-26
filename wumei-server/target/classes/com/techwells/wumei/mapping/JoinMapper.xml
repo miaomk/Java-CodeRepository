@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.JoinMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Join" >
+    <id column="join_id" property="joinId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="groupon_id" property="grouponId" jdbcType="INTEGER" />
+    <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+    <result column="user_ids" property="userIds" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="activated" property="activated" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+    <resultMap type="com.techwells.wumei.domain.rs.RsJoin" id="RsJoinMap" extends="BaseResultMap" >
+   	<result column="product_id" property="productId" jdbcType="INTEGER" />
+  	<result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_icon" property="productIcon" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+  	<result column="number_limitation" property="limitPersonNumber" jdbcType="INTEGER" />
+    <result column="original_price" property="originalPrice" jdbcType="DECIMAL" />
+    <result column="current_price" property="currentPrice" jdbcType="DECIMAL" />
+  	 <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  	 <result column="user_icon" property="userIcon" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    join_id, order_id, groupon_id, creator_id, user_ids, status, activated, deleted, 
+    created_date, updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_join
+    where join_id = #{joinId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_join
+    where join_id = #{joinId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Join" >
+    <selectKey resultType="java.lang.Integer" keyProperty="joinId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_join (order_id, groupon_id, creator_id, 
+      user_ids, status, activated, 
+      deleted, created_date, updated_date
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{grouponId,jdbcType=INTEGER}, #{creatorId,jdbcType=INTEGER}, 
+      #{userIds,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{activated,jdbcType=BIT}, 
+      #{deleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Join" >
+    <selectKey resultType="java.lang.Integer" keyProperty="joinId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_join
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="grouponId != null" >
+        groupon_id,
+      </if>
+      <if test="creatorId != null" >
+        creator_id,
+      </if>
+      <if test="userIds != null" >
+        user_ids,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="grouponId != null" >
+        #{grouponId,jdbcType=INTEGER},
+      </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="userIds != null" >
+        #{userIds,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Join" >
+    update t_join
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="grouponId != null" >
+        groupon_id = #{grouponId,jdbcType=INTEGER},
+      </if>
+      <if test="creatorId != null" >
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="userIds != null" >
+        user_ids = #{userIds,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where join_id = #{joinId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Join" >
+    update t_join
+    set order_id = #{orderId,jdbcType=INTEGER},
+      groupon_id = #{grouponId,jdbcType=INTEGER},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      user_ids = #{userIds,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where join_id = #{joinId,jdbcType=INTEGER}
+  </update>
+  
+    <select id="countTotal" resultType="java.lang.Integer">
+		select count(j.join_id) from t_join j
+		left join t_groupon g
+		on j.groupon_id = g.groupon_id
+		left join t_user u
+		on u.user_id = j.creator_id
+		where 1=1
+		<if test="params.productId !=null and params.productId !=''">
+			and g.productId = #{params.productId,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="selectJoinList" resultMap="RsJoinMap">
+      SELECT
+      j.join_id,
+      j.order_id,
+      j.groupon_id,
+      j.creator_id,
+      j.user_ids AS joinUserId,
+      j.`status`,
+      j.activated,
+      j.deleted,
+      j.created_date,
+      j.updated_date,
+      u.nick_name,
+      u.user_icon
+      FROM
+      t_join j
+      LEFT JOIN t_groupon g ON j.groupon_id = g.groupon_id
+      LEFT JOIN t_user u ON u.user_id = j.creator_id
+		<where>
+          <if test="params.productId !=null and params.productId !=''">
+             g.productId = #{params.productId,jdbcType=INTEGER}
+          </if>
+        </where>
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+	<select id="selectJoinById" resultMap="RsJoinMap">
+    SELECT
+      j.*,
+      u.nick_name,
+      u.user_icon,
+      p.product_name,
+      p.product_icon,
+      g.original_price,
+      g.current_price,
+      g.number_limitation,
+      p.merchant_id,
+      p.description
+    FROM
+      t_join j
+	LEFT JOIN t_groupon g ON j.groupon_id = g.groupon_id
+	LEFT JOIN t_user u ON u.user_id = j.creator_id
+	LEFT JOIN t_product p ON p.product_id = g.product_id
+    where join_id = #{params.joinId,jdbcType=INTEGER}
+	</select>
+
+  <select id="getHomeJoinList" resultMap="RsJoinMap">
+    SELECT
+        p.product_id,
+        p.product_icon,
+        p.product_name,
+        g.original_price,
+        g.current_price
+    FROM
+        `t_join` j
+        LEFT JOIN t_groupon g ON ( g.groupon_id = j.groupon_id )
+        LEFT JOIN t_product p ON ( g.product_id = p.product_id )
+    GROUP BY
+        p.product_id
+    limit
+    #{startNum,jdbcType=INTEGER},
+    #{pageSize,jdbcType=INTEGER}
+  </select>
+</mapper>

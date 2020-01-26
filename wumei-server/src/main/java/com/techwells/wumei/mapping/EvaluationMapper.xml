@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.EvaluationMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Evaluation">
+    <id column="evaluation_id" jdbcType="INTEGER" property="evaluationId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="product_score" jdbcType="INTEGER" property="productScore" />
+    <result column="express_score" jdbcType="INTEGER" property="expressScore" />
+    <result column="service_score" jdbcType="INTEGER" property="serviceScore" />
+    <result column="evaluation_level" jdbcType="INTEGER" property="evaluationLevel" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="activated" jdbcType="BIT" property="activated" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.techwells.wumei.domain.Evaluation">
+    <result column="image_url" jdbcType="LONGVARCHAR" property="imageUrl" />
+  </resultMap>
+  <resultMap type="com.techwells.wumei.domain.rs.RsEvaluation" id="RsEvaluationMap" extends="BaseResultMap">
+  	<result column="user_icon" property="userIcon" jdbcType="VARCHAR" />
+	<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+	 <result column="product_id" property="productId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    evaluation_id, user_id, order_id, product_score, express_score, service_score, evaluation_level,
+    content, activated, deleted, created_date, updated_date
+  </sql>
+  <sql id="Blob_Column_List" >
+    image_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_evaluation
+    where evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_evaluation
+    where evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Evaluation" >
+    <selectKey resultType="java.lang.Integer" keyProperty="evaluationId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_evaluation (user_id, order_id, product_score, 
+      express_score, service_score, evaluation_level,
+      content, activated, deleted, updated_date,
+      created_date, image_url)
+    values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{productScore,jdbcType=INTEGER}, 
+      #{expressScore,jdbcType=INTEGER}, #{serviceScore,jdbcType=INTEGER},  #{evaluationLevel,jdbcType=INTEGER},
+      #{content,jdbcType=VARCHAR}, #{activated,jdbcType=BIT}, #{deleted,jdbcType=BIT}, #{updatedDate,jdbcType=TIMESTAMP},
+      #{createdDate,jdbcType=TIMESTAMP}, #{imageUrl,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Evaluation" >
+    <selectKey resultType="java.lang.Integer" keyProperty="evaluationId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_evaluation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="productScore != null" >
+        product_score,
+      </if>
+      <if test="expressScore != null" >
+        express_score,
+      </if>
+      <if test="serviceScore != null" >
+        service_score,
+      </if>
+      <if test="evaluationLevel != null">
+        evaluation_level,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="imageUrl != null" >
+        image_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="productScore != null" >
+        #{productScore,jdbcType=INTEGER},
+      </if>
+      <if test="expressScore != null" >
+        #{expressScore,jdbcType=INTEGER},
+      </if>
+      <if test="serviceScore != null" >
+        #{serviceScore,jdbcType=INTEGER},
+      </if>
+      <if test="evaluationLevel != null">
+        #{evaluationLevel,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imageUrl != null" >
+        #{imageUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Evaluation" >
+    update t_evaluation
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="productScore != null" >
+        product_score = #{productScore,jdbcType=INTEGER},
+      </if>
+      <if test="expressScore != null" >
+        express_score = #{expressScore,jdbcType=INTEGER},
+      </if>
+      <if test="serviceScore != null" >
+        service_score = #{serviceScore,jdbcType=INTEGER},
+      </if>
+      <if test="evaluationLevel != null">
+        evaluation_level = #{evaluationLevel,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.techwells.wumei.domain.Evaluation" >
+    update t_evaluation
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      product_score = #{productScore,jdbcType=INTEGER},
+      express_score = #{expressScore,jdbcType=INTEGER},
+      service_score = #{serviceScore,jdbcType=INTEGER},
+      evaluation_level = #{evaluationLevel,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      image_url = #{imageUrl,jdbcType=LONGVARCHAR}
+    where evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Evaluation" >
+    update t_evaluation
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      product_score = #{productScore,jdbcType=INTEGER},
+      express_score = #{expressScore,jdbcType=INTEGER},
+      service_score = #{serviceScore,jdbcType=INTEGER},
+      evaluation_level = #{evaluationLevel,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      created_date = #{createdDate,jdbcType=TIMESTAMP}
+    where evaluation_id = #{evaluationId,jdbcType=INTEGER}
+  </update>
+  <select id="countTotal" resultType="java.lang.Integer">
+		select count(e.evaluation_id) from t_evaluation e
+		left join t_order_product op on op.order_id= e.order_id
+		where 1=1
+		<if test="params.productId !=null and params.productId !=''">
+			and op.product_id = #{params.productId,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="selectEvaluationList" resultMap="RsEvaluationMap">
+		select e.* ,u.nick_name,u.user_icon,op.product_id
+		from t_evaluation e
+		left join t_user u
+		on e.user_id = u.user_id
+		left join t_order_product op on op.order_id= e.order_id
+		where 1=1
+		<if test="params.productId !=null and params.productId !=''">
+			and op.product_id = #{params.productId,jdbcType=INTEGER}
+		</if>
+		order by e.created_date desc
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+
+  <select id="getMerchantEvaluationList" resultMap="RsEvaluationMap">
+    SELECT
+    e.*,
+    u.nick_name,
+    u.user_icon
+    FROM
+    t_evaluation e
+    LEFT JOIN t_user u ON e.user_id = u.user_id
+    LEFT JOIN t_order op ON e.order_id = op.order_id
+    <where>
+      op.merchant_id = #{params.merchantId,jdbcType=INTEGER}
+      <if test="params.haveImage != null and params.haveImage == 1">
+        and  e.image_url != ''
+      </if>
+    </where>
+    order by e.created_date desc
+    limit
+    #{startNum,jdbcType=INTEGER},
+    #{pageSize,jdbcType=INTEGER}
+  </select>
+
+</mapper>

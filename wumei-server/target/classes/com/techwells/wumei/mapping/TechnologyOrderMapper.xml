@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techwells.wumei.dao.TechnologyOrderMapper">
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.TechnologyOrder">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="technology_id" jdbcType="INTEGER" property="technologyId" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="total_price" jdbcType="DOUBLE" property="totalPrice" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="pay_status" jdbcType="INTEGER" property="payStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="activated" jdbcType="INTEGER" property="activated" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, user_id, technology_id, start_date, end_date, total_price, amount, order_status, 
+    pay_status, remark, activated, deleted, create_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_technology_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_technology_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.TechnologyOrder">
+    <selectKey keyProperty="orderId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_technology_order (user_id, technology_id, start_date, 
+      end_date, total_price, amount, 
+      order_status, pay_status, remark, 
+      activated, deleted, create_date, 
+      update_date)
+    values (#{userId,jdbcType=INTEGER}, #{technologyId,jdbcType=INTEGER}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{totalPrice,jdbcType=DOUBLE}, #{amount,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=INTEGER}, #{payStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{activated,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.TechnologyOrder">
+    <selectKey keyProperty="orderId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_technology_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="technologyId != null">
+        technology_id,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="activated != null">
+        activated,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="technologyId != null">
+        #{technologyId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.TechnologyOrder">
+    update t_technology_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="technologyId != null">
+        technology_id = #{technologyId,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        activated = #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.TechnologyOrder">
+    update t_technology_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      technology_id = #{technologyId,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      total_price = #{totalPrice,jdbcType=DOUBLE},
+      amount = #{amount,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      pay_status = #{payStatus,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+
+  <select id="countTotal" resultType="int">
+    SELECT
+      count(0)
+    FROM
+    t_technology_order o
+    <where>
+      order_status != 3
+      AND deleted = 0
+      <if test="params.technologyId != null and params.technologyId != '' ">
+        AND   technology_id = #{params.technologyId}
+      </if>
+      <if test="params.orderStatus != null and params.orderStatus != '' ">
+        AND order_status = #{params.orderStatus}
+      </if>
+      <if test="params.payStatus != null and params.payStatus != '' ">
+        AND pay_status = #{params.payStatus}
+      </if>
+    </where>
+  </select>
+
+
+  <select id="selectTechnologyOrderList" resultMap="BaseResultMap">
+    SELECT
+        o.order_id,
+        o.user_id,
+        o.technology_id,
+        o.start_date,
+        o.end_date,
+        o.total_price,
+        o.amount,
+        o.order_status,
+        o.pay_status,
+        o.remark
+    FROM
+        t_technology_order o
+    <where>
+      order_status != 3
+      AND deleted = 0
+      <if test="params.technologyId != null and params.technologyId != '' ">
+        AND   technology_id = #{params.technologyId}
+      </if>
+      <if test="params.orderStatus != null and params.orderStatus != '' ">
+        AND order_status = #{params.orderStatus}
+      </if>
+      <if test="params.payStatus != null and params.payStatus != '' ">
+        AND pay_status = #{params.payStatus}
+      </if>
+    </where>
+    limit
+    #{startNum,jdbcType=INTEGER},
+    #{pageSize,jdbcType=INTEGER}
+  </select>
+
+  <select id="batchUpdateOrder" resultType="int">
+    <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
+      UPDATE t_technology_order
+      set
+      pay_status = #{bean.payStatus},
+      order_status = #{bean.orderStatus},
+      deleted = #{bean.deleted}
+      WHERE order_id = #{bean.activityOrderId}
+    </foreach>
+  </select>
+</mapper>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.HotSearchMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.HotSearch" >
+    <id column="hot_search_id" property="hotSearchId" jdbcType="INTEGER" />
+    <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="creator_id" property="creatorId" jdbcType="INTEGER" />
+    <result column="activated" property="activated" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    hot_search_id, keyword, type, note, creator_id, activated, deleted, created_date, 
+    updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_hot_search
+    where hot_search_id = #{hotSearchId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_hot_search
+    where hot_search_id = #{hotSearchId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.HotSearch" >
+    <selectKey resultType="java.lang.Integer" keyProperty="hotSearchId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_hot_search (keyword, type, note, 
+      creator_id, activated, deleted, 
+      created_date, updated_date)
+    values (#{keyword,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, 
+      #{creatorId,jdbcType=INTEGER}, #{activated,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER}, 
+      #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.HotSearch" >
+    <selectKey resultType="java.lang.Integer" keyProperty="hotSearchId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_hot_search
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="keyword != null" >
+        keyword,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="creatorId != null" >
+        creator_id,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="keyword != null" >
+        #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null" >
+        #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.HotSearch" >
+    update t_hot_search
+    <set >
+      <if test="keyword != null" >
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorId != null" >
+        creator_id = #{creatorId,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where hot_search_id = #{hotSearchId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.HotSearch" >
+    update t_hot_search
+    set keyword = #{keyword,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      note = #{note,jdbcType=VARCHAR},
+      creator_id = #{creatorId,jdbcType=INTEGER},
+      activated = #{activated,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=INTEGER},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where hot_search_id = #{hotSearchId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="countTotal" resultType="java.lang.Integer">
+		select count(hs.hot_search_id) from t_hot_search hs
+		where 1=1
+		<if test="params.type !=null and params.type !=''">
+			and hs.type = #{params.type,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="selectHotSearchList" resultMap="BaseResultMap">
+		select hs.* from t_hot_search hs
+		where 1=1
+		<if test="params.type !=null and params.type !=''">
+			and hs.type = #{params.type,jdbcType=INTEGER}
+		</if>
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+</mapper>

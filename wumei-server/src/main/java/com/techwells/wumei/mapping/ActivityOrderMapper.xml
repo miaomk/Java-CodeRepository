@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techwells.wumei.dao.ActivityOrderMapper">
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.ActivityOrder">
+    <id column="activity_order_id" jdbcType="VARCHAR" property="activityOrderId" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="buyer_information" jdbcType="VARCHAR" property="buyerInformation" />
+    <result column="payment_method" jdbcType="INTEGER" property="paymentMethod" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="ticket_count" jdbcType="INTEGER" property="ticketCount" />
+    <result column="ticket_no" jdbcType="BIGINT" property="ticketNo" />
+    <result column="pay_amount" jdbcType="DOUBLE" property="payAmount" />
+    <result column="pay_status" jdbcType="INTEGER" property="payStatus" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="qr_code" jdbcType="VARCHAR" property="qrCode" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="activated" jdbcType="INTEGER" property="activated" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+
+    <resultMap id="ActivityMap" extends="com.techwells.wumei.dao.ActivityMapper.BaseResultMap" type="com.techwells.wumei.domain.rs.RsActivityUser">
+        <result column="activity_order_id" jdbcType="VARCHAR" property="activityOrderId" />
+        <result column="activity_order_id" jdbcType="VARCHAR" property="activityOrderId" />
+        <result column="activity_order_id" jdbcType="VARCHAR" property="activityOrderId" />
+    </resultMap>
+  <sql id="Base_Column_List">
+    activity_order_id, activity_id, user_id, buyer_information, payment_method, account,
+    ticket_count, ticket_no, pay_amount, pay_status, order_status, qr_code, remark, activated,
+    deleted, create_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+    select
+    o.*
+    from t_activity_order o
+    where activity_order_id = #{activityOrderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="string">
+    delete from t_activity_order
+    where activity_order_id = #{activityOrderId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.ActivityOrder">
+    <selectKey keyProperty="activityOrderId" order="AFTER" resultType="string">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_activity_order (activity_order_id, activity_id, user_id, buyer_information,
+    payment_method, account, ticket_count,
+    ticket_no, pay_amount, pay_status,
+    order_status, qr_code, remark,
+    activated, deleted, create_date,
+    update_date)
+    values (#{activityOrderId,jdbcType=VARCHAR}, #{activityId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{buyerInformation,jdbcType=VARCHAR},
+    #{paymentMethod,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{ticketCount,jdbcType=INTEGER},
+    #{ticketNo,jdbcType=BIGINT}, #{payAmount,jdbcType=DOUBLE}, #{payStatus,jdbcType=INTEGER},
+    #{orderStatus,jdbcType=INTEGER}, #{qrCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+    #{activated,jdbcType=INTEGER}, #{deleted,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP},
+    #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="activityOrderId" parameterType="com.techwells.wumei.domain.ActivityOrder">
+    insert into t_activity_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityOrderId != null">
+          activity_order_id,
+      </if>
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="buyerInformation != null">
+        buyer_information,
+      </if>
+      <if test="paymentMethod != null">
+        payment_method,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="ticketCount != null">
+        ticket_count,
+      </if>
+      <if test="ticketNo != null">
+        ticket_no,
+      </if>
+      <if test="payAmount != null">
+        pay_amount,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="qrCode != null">
+        qr_code,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="activated != null">
+        activated,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="activityOrderId != null">
+            #{activityOrderId,jdbcType=INTEGER},
+        </if>
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerInformation != null">
+        #{buyerInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod != null">
+        #{paymentMethod,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketCount != null">
+        #{ticketCount,jdbcType=INTEGER},
+      </if>
+      <if test="ticketNo != null">
+        #{ticketNo,jdbcType=BIGINT},
+      </if>
+      <if test="payAmount != null">
+        #{payAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="qrCode != null">
+        #{qrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.ActivityOrder">
+    update t_activity_order
+    <set>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="buyerInformation != null">
+        buyer_information = #{buyerInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod != null">
+        payment_method = #{paymentMethod,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketCount != null">
+        ticket_count = #{ticketCount,jdbcType=INTEGER},
+      </if>
+      <if test="ticketNo != null">
+        ticket_no = #{ticketNo,jdbcType=BIGINT},
+      </if>
+      <if test="payAmount != null">
+        pay_amount = #{payAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="qrCode != null">
+        qr_code = #{qrCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        activated = #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where activity_order_id = #{activityOrderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.ActivityOrder">
+    update t_activity_order
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      buyer_information = #{buyerInformation,jdbcType=VARCHAR},
+      payment_method = #{paymentMethod,jdbcType=INTEGER},
+      account = #{account,jdbcType=VARCHAR},
+      ticket_count = #{ticketCount,jdbcType=INTEGER},
+      ticket_no = #{ticketNo,jdbcType=BIGINT},
+      pay_amount = #{payAmount,jdbcType=DOUBLE},
+      pay_status = #{payStatus,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      qr_code = #{qrCode,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=BIT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where activity_order_id = #{activityOrderId,jdbcType=VARCHAR}
+  </update>
+  <select id="getSaleTicketCount" resultType="int">
+  SELECT
+    IFNULL( SUM( ticket_count ), 0 )
+  FROM
+      t_activity_order
+  WHERE
+      activity_id = #{activityId}
+      AND order_status != 3
+  </select>
+
+  <select id="getOrderList" resultMap="BaseResultMap">
+  SELECT
+      activity_order_id,
+      activity_id,
+      user_id,
+      buyer_information,
+      payment_method,
+      ticket_count,
+      ticket_no,
+      pay_amount,
+      pay_status,
+      order_status,
+      qr_code,
+      remark,
+      deleted,
+      create_date,
+      update_date
+  FROM
+      t_activity_order
+      <where>
+          order_status != 3
+          AND deleted = 0
+          <if test="params.activityId != null and params.activityId != '' ">
+              AND   activity_id = #{params.activityId}
+          </if>
+          <if test="params.orderStatus != null and params.orderStatus != '' ">
+              AND order_status = #{params.orderStatus}
+          </if>
+          <if test="params.payStatus != null and params.payStatus != '' ">
+              AND pay_status = #{params.payStatus}
+          </if>
+      </where>
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+  </select>
+
+    <select id="getOrderCount" resultType="java.lang.Integer">
+  SELECT
+      count(0)
+  FROM
+      t_activity_order
+      <where>
+          order_status != 3
+          <if test="params.activityId != null and params.activityId != '' ">
+            AND   activity_id = #{params.activityId}
+          </if>
+
+      </where>
+  </select>
+
+  <select id="selectByTicketNo" resultMap="BaseResultMap">
+    SELECT
+           activity_order_id,
+      activity_id,
+      user_id,
+      buyer_information,
+      payment_method,
+      ticket_count,
+      ticket_no,
+      pay_amount,
+      pay_status,
+      order_status,
+      qr_code,
+      remark,
+      deleted,
+      create_date,
+      update_date
+    FROM
+        t_activity_order
+    WHERE
+        ticket_no =  #{activityOrderId}
+        AND deleted = 0
+        AND order_status != 3
+  </select>
+
+  <select id="getUserOrderList" resultMap="BaseResultMap">
+  SELECT
+      activity_order_id,
+      activity_id,
+      user_id,
+      buyer_information,
+      payment_method,
+      ticket_count,
+      ticket_no,
+      pay_amount,
+      pay_status,
+      order_status,
+      qr_code,
+      remark,
+      deleted,
+      create_date,
+      update_date
+  FROM
+      t_activity_order
+  WHERE
+      user_id = #{userId}
+      AND deleted = 0
+  </select>
+
+  <update id="batchDeleteOrder">
+    UPDATE t_activity_order
+    SET deleted = 1
+    WHERE
+    activity_order_id IN
+    <foreach collection="ids" item="orderNo" open="(" separator="," close=")">
+      #{orderNo}
+    </foreach>
+  </update>
+
+  <select id="getSignUpCount" resultType="com.techwells.wumei.domain.rs.RsActivityManage">
+    SELECT
+        activity_id as activityId,
+        count( 0 ) as signUpCount
+    FROM
+        `t_activity_order`
+    WHERE
+        deleted = 0
+        AND order_status != 3
+        AND activity_id IN
+    <foreach collection="activityManageList" item="activity" open="(" close=")" separator=",">
+      #{activity.activityId}
+    </foreach>
+    GROUP BY
+        activity_id
+  </select>
+
+  <select id="getFreeCount" resultType="java.lang.Integer">
+    SELECT
+        SUM(ticket_count )
+    FROM
+        t_activity_order
+    WHERE
+        activity_id = #{activityId}
+        AND order_status != 3
+        AND pay_amount = 0
+  </select>
+
+  <select id="getAllUserInfo" resultMap="BaseResultMap">
+  SELECT
+      activity_order_id,
+      activity_id,
+      user_id,
+      buyer_information,
+      payment_method,
+      ticket_count,
+      ticket_no,
+      pay_amount,
+      pay_status,
+      order_status,
+      qr_code,
+      remark,
+      deleted,
+      create_date,
+      update_date
+  FROM
+      t_activity_order
+  WHERE
+      activity_id = #{activityId}
+      AND deleted = 0
+  </select>
+  <select id="getUserInfo" resultType="com.techwells.wumei.domain.rs.OrderUserInfoVO">
+  SELECT
+      a.activity_order_id AS activityOrderId,
+      a.activity_id AS activityId,
+      a.user_id AS userId,
+      u.nick_name AS userName,
+      u.user_icon AS userIcon,
+      a.buyer_information AS buyerInformation,
+      a.create_date AS createDate,
+      a.pay_amount AS payAmount
+  FROM
+      t_activity_order a
+      LEFT JOIN t_user u ON ( u.user_id = a.user_id )
+  WHERE
+      a.deleted = 0
+      AND a.activity_id = #{activityId}
+      AND a.order_status !=3
+  </select>
+
+    <select id="getTicketIncome" resultType="java.math.BigDecimal">
+        SELECT
+        sum( o.pay_amount )
+        FROM
+        t_activity_order o
+        LEFT JOIN t_activity a ON ( a.activity_id = o.activity_id )
+        WHERE
+        a.company_id = 98
+        <![CDATA[AND a.activity_end_time < NOW()]]>
+        AND o.order_status = 1
+        AND o.deleted = 0
+        AND a.deleted = 0
+
+    </select>
+
+    <select id="getTicketIncomeList" resultType="com.techwells.wumei.domain.rs.BillVO">
+        SELECT
+        o.activity_order_id as flowId,
+         o.pay_amount as payment,
+         o.create_date as createTime
+        FROM
+        t_activity_order o
+        LEFT JOIN t_activity a ON ( a.activity_id = o.activity_id )
+        WHERE
+        a.company_id = 98
+        <![CDATA[AND a.activity_end_time < NOW()]]>
+        AND o.order_status = 1
+        AND o.deleted = 0
+        AND a.deleted = 0
+
+    </select>
+
+    <!--查询用户活动列表-->
+    <select id="userActivityList" resultMap="ActivityMap">
+    SELECT
+    	a.activity_id,
+        a.activity_theme,
+        a.activity_logo,
+        a.activity_free,
+        a.activity_fee,
+        a.activity_location,
+        a.activity_start_time,
+        a.activity_end_time,
+        o.activity_order_id,
+        o.create_date,
+        o.ticket_count,
+        o.pay_amount
+    FROM
+        t_activity_order o
+        LEFT JOIN t_activity a ON ( a.activity_id = o.activity_id )
+    WHERE
+        o.user_id = #{params.userId}
+        AND o.order_status != 3
+        AND a.deleted = 0
+        AND o.deleted = 0
+        <if test="params.activated != null and params.activated != ''">
+            AND a.activated = #{params.activated}
+        </if>
+        <if test="params.payStatus != null and params.payStatus != ''">
+            AND o.pay_status = #{params.payStatus}
+        </if>
+        limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <select id="getUserActivityCount" resultType="java.lang.Integer">
+        SELECT
+            count(a.activity_id)
+        FROM
+        t_activity_order o
+        LEFT JOIN t_activity a ON ( a.activity_id = o.activity_id )
+        WHERE
+        o.user_id = #{params.userId}
+        AND o.order_status != 3
+        AND a.deleted = 0
+        AND o.deleted = 0
+        <if test="params.activated != null and params.activated != ''">
+            AND a.activated = #{params.activated}
+        </if>
+        <if test="params.payStatus != null and params.payStatus != ''">
+            AND o.pay_status = #{params.payStatus}
+        </if>
+    </select>
+
+    <select id="checkRepeatPurchase" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            t_activity_order
+        WHERE
+            activity_id = #{activityId}
+            AND user_id = #{userId}
+            AND order_status != 3
+            AND deleted = 0
+    </select>
+
+    <update id="batchUpdateOrder">
+        <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
+            UPDATE t_activity_order
+            set
+            pay_status = #{bean.payStatus},
+            order_status = #{bean.orderStatus},
+            deleted = #{bean.deleted}
+            WHERE activity_order_id = #{bean.activityOrderId}
+        </foreach>
+    </update>
+</mapper>

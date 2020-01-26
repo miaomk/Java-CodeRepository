@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techwells.wumei.dao.TechnologyMapper">
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Technology">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="technology_occupation" jdbcType="INTEGER" property="technologyOccupation" />
+    <result column="work_experience" jdbcType="INTEGER" property="workExperience" />
+    <result column="personal_introduce" jdbcType="VARCHAR" property="personalIntroduce" />
+    <result column="technology_gender" jdbcType="INTEGER" property="technologyGender" />
+    <result column="technology_age" jdbcType="INTEGER" property="technologyAge" />
+    <result column="salary" jdbcType="DECIMAL" property="salary" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="glory" jdbcType="INTEGER" property="glory" />
+    <result column="certificate_image" jdbcType="VARCHAR" property="certificateImage" />
+    <result column="is_recommend" jdbcType="INTEGER" property="isRecommend" />
+    <result column="work_case" jdbcType="VARCHAR" property="workCase" />
+    <result column="activated" jdbcType="INTEGER" property="activated" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+  </resultMap>
+
+
+  <resultMap id="HotTechnologyMap" type="com.techwells.wumei.domain.vo.HotTechnologyVo" extends="BaseResultMap">
+    <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+    <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+    <result column="user_icon" property="userIcon" jdbcType="VARCHAR"/>
+    <collection property="caseList" ofType="com.techwells.wumei.domain.TechnologyCase" resultMap="com.techwells.wumei.dao.TechnologyCaseMapper.BaseResultMap">
+    </collection>
+  </resultMap>
+    <resultMap id="RsTechnologyMap" type="com.techwells.wumei.domain.rs.RsTechnology" extends="BaseResultMap">
+    <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+    <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+    <result column="user_icon" property="userIcon" jdbcType="VARCHAR"/>
+    <collection property="caseList" ofType="com.techwells.wumei.domain.TechnologyCase">
+        <id column="case_id" jdbcType="INTEGER" property="caseId" />
+        <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, technology_occupation, work_experience, personal_introduce, technology_gender,
+    technology_age, salary, city, glory, certificate_image, is_recommend, work_case,
+    activated, deleted, created_date, updated_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_technology
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_technology
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Technology">
+    insert into t_technology (user_id, technology_occupation, work_experience,
+      personal_introduce, technology_gender, technology_age,
+      salary, city, glory,
+      certificate_image, is_recommend, work_case,
+      activated, deleted, created_date,
+      updated_date)
+    values (#{userId,jdbcType=INTEGER}, #{technologyOccupation,jdbcType=INTEGER}, #{workExperience,jdbcType=INTEGER},
+      #{personalIntroduce,jdbcType=VARCHAR}, #{technologyGender,jdbcType=INTEGER}, #{technologyAge,jdbcType=INTEGER},
+      #{salary,jdbcType=DECIMAL}, #{city,jdbcType=VARCHAR}, #{glory,jdbcType=INTEGER},
+      #{certificateImage,jdbcType=VARCHAR}, #{isRecommend,jdbcType=INTEGER}, #{workCase,jdbcType=VARCHAR},
+      #{activated,jdbcType=INTEGER}, #{deleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP},
+      #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Technology">
+    insert into t_technology
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+          user_id,
+      </if>
+      <if test="technologyOccupation != null">
+        technology_occupation,
+      </if>
+      <if test="workExperience != null">
+        work_experience,
+      </if>
+      <if test="personalIntroduce != null">
+        personal_introduce,
+      </if>
+      <if test="technologyGender != null">
+        technology_gender,
+      </if>
+      <if test="technologyAge != null">
+        technology_age,
+      </if>
+      <if test="salary != null">
+        salary,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="glory != null">
+        glory,
+      </if>
+      <if test="certificateImage != null">
+        certificate_image,
+      </if>
+      <if test="isRecommend != null">
+        is_recommend,
+      </if>
+      <if test="workCase != null">
+        work_case,
+      </if>
+      <if test="activated != null">
+        activated,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="updatedDate != null">
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="userId != null">
+            #{userId,jdbcType=INTEGER},
+        </if>
+      <if test="technologyOccupation != null">
+        #{technologyOccupation,jdbcType=INTEGER},
+      </if>
+      <if test="workExperience != null">
+        #{workExperience,jdbcType=INTEGER},
+      </if>
+      <if test="personalIntroduce != null">
+        #{personalIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyGender != null">
+        #{technologyGender,jdbcType=INTEGER},
+      </if>
+      <if test="technologyAge != null">
+        #{technologyAge,jdbcType=INTEGER},
+      </if>
+      <if test="salary != null">
+        #{salary,jdbcType=DECIMAL},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="glory != null">
+        #{glory,jdbcType=INTEGER},
+      </if>
+      <if test="certificateImage != null">
+        #{certificateImage,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecommend != null">
+        #{isRecommend,jdbcType=INTEGER},
+      </if>
+      <if test="workCase != null">
+        #{workCase,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Technology">
+    update t_technology
+    <set>
+      <if test="technologyOccupation != null">
+        technology_occupation = #{technologyOccupation,jdbcType=INTEGER},
+      </if>
+      <if test="workExperience != null">
+        work_experience = #{workExperience,jdbcType=INTEGER},
+      </if>
+      <if test="personalIntroduce != null">
+        personal_introduce = #{personalIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="technologyGender != null">
+        technology_gender = #{technologyGender,jdbcType=INTEGER},
+      </if>
+      <if test="technologyAge != null">
+        technology_age = #{technologyAge,jdbcType=INTEGER},
+      </if>
+      <if test="salary != null">
+        salary = #{salary,jdbcType=DECIMAL},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="glory != null">
+        glory = #{glory,jdbcType=INTEGER},
+      </if>
+      <if test="certificateImage != null">
+        certificate_image = #{certificateImage,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecommend != null">
+        is_recommend = #{isRecommend,jdbcType=INTEGER},
+      </if>
+      <if test="workCase != null">
+        work_case = #{workCase,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        activated = #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Technology">
+    update t_technology
+    set technology_occupation = #{technologyOccupation,jdbcType=INTEGER},
+      work_experience = #{workExperience,jdbcType=INTEGER},
+      personal_introduce = #{personalIntroduce,jdbcType=VARCHAR},
+      technology_gender = #{technologyGender,jdbcType=INTEGER},
+      technology_age = #{technologyAge,jdbcType=INTEGER},
+      salary = #{salary,jdbcType=DECIMAL},
+      city = #{city,jdbcType=VARCHAR},
+      glory = #{glory,jdbcType=INTEGER},
+      certificate_image = #{certificateImage,jdbcType=VARCHAR},
+      is_recommend = #{isRecommend,jdbcType=INTEGER},
+      work_case = #{workCase,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="countTotal" resultType="java.lang.Integer">
+    SELECT
+        count(0)
+    FROM
+    t_technology t
+    INNER JOIN t_user u ON ( t.user_id = u.user_id )
+    <where>
+      t.deleted = 0
+      AND u.deleted = 0
+      <if test="params.nickName !=null and params.nickName !=''">
+
+        AND LOCATE( #{params.nickName}, u.nick_name )
+      </if>
+      <if test="params.technologyOccupation !=null and params.technologyOccupation !=''">
+
+        AND  t.technology_occupation = #{params.technologyOccupation}
+      </if>
+      <if test="params.activated !=null and params.activated !=''">
+
+        AND  t.activated = #{params.activated}
+      </if>
+      <if test="params.isRecommend !=null and params.isRecommend !=''">
+
+        AND  t.is_recommend = #{params.isRecommend}
+      </if>
+      <if test="params.city !=null and params.city !=''">
+        AND LOCATE(#{params.city},t.city)
+      </if>
+
+      <if test="params.createDate !=null and params.createDate !=''">
+        ORDER BY
+        t.created_date desc
+      </if>
+
+    </where>
+  </select>
+  <select id="getTechnologyList" resultMap="RsTechnologyMap">
+    SELECT
+        u.real_name,
+        u.user_icon,
+        u.mobile,
+        t.user_id,
+        t.technology_occupation,
+        tt.type_name,
+        t.technology_gender,
+        t.technology_age,
+        t.work_experience,
+        t.salary as salary,
+        t.city as city,
+        t.glory as glory,
+        t.certificate_image,
+        t.work_case,
+        t.activated,
+        t.is_recommend,
+        t.created_date,
+        t.updated_date,
+        c.case_id,
+        c.image_url
+    FROM
+        t_technology t
+      INNER JOIN t_user u ON ( t.user_id = u.user_id AND u.deleted = 0 )
+      LEFT JOIN t_technology_case c ON ( c.technology_id = t.user_id AND c.deleted = 0 )
+      INNER JOIN t_technology_type tt ON ( tt.type_id = t.technology_occupation AND tt.deleted = 0 )
+    <where>
+      t.deleted = 0
+      AND u.deleted = 0
+      <if test="params.userName !=null and params.userName !=''">
+
+        AND LOCATE( #{params.userName}, u.nick_name )
+      </if>
+      <if test="params.technologyOccupation !=null and params.technologyOccupation !=''">
+
+        AND  t.technology_occupation = #{params.technologyOccupation}
+      </if>
+      <if test="params.activated !=null and params.activated !=''">
+
+        AND  t.activated = #{params.activated}
+      </if>
+      <if test="params.isRecommend !=null and params.isRecommend !=''">
+
+        AND  t.is_recommend = #{params.isRecommend}
+      </if>
+      <if test="params.city != null and params.city != '' ">
+        AND LOCATE(#{params.city},t.city)
+      </if>
+      ORDER BY
+      t.glory desc
+      <if test="params.createDate !=null and params.createDate !=''">
+
+        ,t.created_date DESC
+      </if>
+      <if test="params.salary != null and  params.salary != '' and params.salary == 2 ">
+          , t.salary ASC
+      </if>
+      <if test="params.salary != null and  params.salary != '' and params.salary == 1 ">
+        , t.salary DESC
+      </if>
+    </where>
+    limit
+    #{startNum},
+    #{pageSize}
+  </select>
+
+  <update id="deleteTechnology">
+    UPDATE t_technology
+    SET deleted = 1
+    WHERE
+        user_id = #{userId}
+  </update>
+
+  <update id="batchDeleteTechnology">
+    UPDATE t_technology
+    SET deleted = 1
+    WHERE
+    user_id IN
+    <foreach collection="idArrays" item="id"   open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </update>
+
+  <update id="batchEditTechnologyStatus">
+    UPDATE t_technology
+    SET activated = #{activated}
+    WHERE
+    user_id IN
+    <foreach collection="idArrays" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </update>
+
+  <select id="getTechnologyInfo" resultType="com.techwells.wumei.domain.rs.RsTechnology">
+  SELECT
+      t.user_id AS userId,
+      u.real_name AS realName,
+      u.mobile AS phone,
+      t.technology_occupation AS technologyOccupation,
+      tt.type_name AS typeName,
+      t.work_experience AS workExperience,
+      t.technology_gender AS technologyGender,
+      t.technology_age AS technologyAge,
+      t.certificate_image AS certificateImage,
+      t.city AS city,
+      t.salary AS salary,
+      t.glory AS glory,
+      t.personal_introduce AS personalIntroduce,
+      t.activated AS activated,
+      t.work_case AS workCase,
+      u.user_icon AS userIcon,
+      t.created_date AS createdDate,
+      t.updated_date AS updatedDate
+  FROM
+      `t_technology` t
+      INNER JOIN t_user u ON ( u.user_id = t.user_id )
+      LEFT JOIN t_technology_type tt ON ( tt.type_id = t.technology_occupation AND t.deleted = 0 )
+  WHERE
+      u.deleted = 0
+      AND t.deleted = 0
+      AND t.user_id = #{userId}
+  </select>
+
+  <update id="batchEditTechnologyRecommend">
+    UPDATE t_technology
+    SET is_recommend = #{isRecommend}
+    WHERE
+    user_id IN
+    <foreach collection="idArrays" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+
+  </update>
+
+  <select id="getHotTechnologyList" resultMap="HotTechnologyMap">
+    SELECT
+        u.user_id,
+        u.real_name,
+        u.user_icon,
+        t.salary,
+        t.glory,
+        t.technology_occupation ,
+        tt.type_name,
+        t.city ,
+        t.work_experience,
+        c.case_id,
+        c.image_url
+    FROM
+        t_technology t
+        INNER JOIN t_user u ON ( t.user_id = u.user_id AND u.deleted = 0 )
+        LEFT JOIN t_technology_case c ON ( c.technology_id = t.user_id AND c.deleted = 0 )
+        INNER JOIN t_technology_type tt ON ( tt.type_id = t.technology_occupation AND tt.deleted = 0 )
+    <where>
+        t.deleted = 0
+        AND u.is_authentication = 1
+        AND t.activated = 1
+        AND t.is_recommend = 1
+        <if test="params.technologyOccupation !=null and params.technologyOccupation !=''">
+            AND  t.technology_occupation = #{params.technologyOccupation}
+        </if>
+        <if test="params.city != null and params.city != '' ">
+            AND LOCATE(#{params.city},t.city)
+        </if>
+    </where>
+      ORDER BY
+        t.glory
+        <if test="params.salary != null and  params.salary != '' and params.salary == 2 ">
+            , t.salary
+        </if>
+        <if test="params.salary != null and  params.salary != '' and params.salary == 1 ">
+            , t.salary desc
+        </if>
+        limit
+        #{startNum},
+        #{pageSize}
+  </select>
+
+    <select id="hotCountTotal" resultType="java.lang.Integer">
+        SELECT
+        count( DISTINCT u.user_id )
+        FROM
+        t_technology t
+        INNER JOIN t_user u ON ( t.user_id = u.user_id AND u.deleted = 0)
+        LEFT JOIN t_technology_case c ON ( c.technology_id = t.user_id AND c.deleted = 0)
+        <where>
+            t.deleted = 0
+            AND u.is_authentication = 1
+            AND t.activated = 1
+            AND t.is_recommend = 1
+            <if test="params.technologyOccupation !=null and params.technologyOccupation !=''">
+                AND  t.technology_occupation = #{params.technologyOccupation}
+            </if>
+            <if test="params.city !=null and params.city !=''">
+              AND LOCATE(#{params.city},t.city)
+            </if>
+        </where>
+    </select>
+
+    <select id="getCollectTechnologyList" resultMap="HotTechnologyMap">
+        SELECT
+            u.user_id,
+            u.real_name,
+            u.user_icon,
+            t.salary,
+            t.glory,
+            t.technology_occupation ,
+            tt.type_name,
+            t.city ,
+            t.work_experience,
+            c.case_id,
+            c.image_url
+        FROM
+            t_technology t
+        INNER JOIN t_user u ON ( t.user_id = u.user_id AND u.deleted = 0 )
+        LEFT JOIN t_technology_case c ON ( c.technology_id = t.user_id AND c.deleted = 0 )
+        INNER JOIN t_technology_type tt ON ( tt.type_id = t.technology_occupation AND tt.deleted = 0 )
+        WHERE
+            t.deleted = 0
+        AND u.is_authentication = 1
+        AND t.activated = 1
+        AND t.user_id IN
+        <foreach collection="list" item="bean" index="index" open="(" close=")" separator=",">
+            #{bean}
+        </foreach>
+        ORDER BY
+        t.glory
+        limit
+        #{pageTool.startNum,jdbcType=INTEGER},
+        #{pageTool.pageSize,jdbcType=INTEGER}
+    </select>
+</mapper>

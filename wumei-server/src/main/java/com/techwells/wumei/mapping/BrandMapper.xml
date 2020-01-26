@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.BrandMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Brand" >
+    <id column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="brand_icon" property="brandIcon" jdbcType="VARCHAR" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="activated" property="activated" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    brand_id, brand_name, brand_icon, company, activated, deleted, created_date, updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_brand
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_brand
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Brand" >
+    <selectKey resultType="java.lang.Integer" keyProperty="brandId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_brand (brand_name, brand_icon, company, 
+      activated, deleted, created_date, 
+      updated_date)
+    values (#{brandName,jdbcType=VARCHAR}, #{brandIcon,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{activated,jdbcType=BIT}, #{deleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Brand" >
+    <selectKey resultType="java.lang.Integer" keyProperty="brandId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_brand
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="brandIcon != null" >
+        brand_icon,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandIcon != null" >
+        #{brandIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Brand" >
+    update t_brand
+    <set >
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandIcon != null" >
+        brand_icon = #{brandIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Brand" >
+    update t_brand
+    set brand_name = #{brandName,jdbcType=VARCHAR},
+      brand_icon = #{brandIcon,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where brand_id = #{brandId,jdbcType=INTEGER}
+  </update>
+  <select id="countTotal" resultType="java.lang.Integer">
+		select count(b.brand_id) from t_brand b
+		where 1=1
+		<if test="params.brandName !=null and params.brandName!=''">
+			and locate ( #{params.brandName,jdbcType=VARCHAR} , b.brand_name) > 0
+		</if>
+		
+	</select>
+	
+	<select id="selectBrandList" resultMap="BaseResultMap">
+		select b.* from t_brand b
+		where 1=1
+		<if test="params.brandName !=null and params.brandName!=''">
+			and locate ( #{params.brandName,jdbcType=VARCHAR} , b.brand_name) > 0
+		</if>
+		
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+
+  <update id="updateStartBrand">
+    UPDATE t_banner
+    SET activated = 1
+    WHERE
+    start_date &lt;= NOW( )
+    AND activated = 0;
+  </update>
+
+  <update id="updateEndBrand">
+    UPDATE t_banner
+    SET activated = 2
+    WHERE
+    end_date &lt;= NOW( )
+    AND activated = 1;
+  </update>
+</mapper>

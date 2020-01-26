@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.LevelMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Level" >
+    <id column="level_id" property="levelId" jdbcType="INTEGER" />
+    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+    <result column="purchase_discount" property="purchaseDiscount" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="activated" property="activated" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    level_id, level_name, discount, purchase_discount, price, activated, deleted, created_date, 
+    updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_level
+    where level_id = #{levelId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_level
+    where level_id = #{levelId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Level" >
+    <selectKey resultType="java.lang.Integer" keyProperty="levelId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_level (level_name, discount, purchase_discount, 
+      price, activated, deleted, 
+      created_date, updated_date)
+    values (#{levelName,jdbcType=VARCHAR}, #{discount,jdbcType=INTEGER}, #{purchaseDiscount,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{activated,jdbcType=INTEGER}, #{deleted,jdbcType=BIT}, 
+      #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Level" >
+    <selectKey resultType="java.lang.Integer" keyProperty="levelId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_level
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="levelName != null" >
+        level_name,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="purchaseDiscount != null" >
+        purchase_discount,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="levelName != null" >
+        #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseDiscount != null" >
+        #{purchaseDiscount,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Level" >
+    update t_level
+    <set >
+      <if test="levelName != null" >
+        level_name = #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseDiscount != null" >
+        purchase_discount = #{purchaseDiscount,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where level_id = #{levelId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Level" >
+    update t_level
+    set level_name = #{levelName,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=INTEGER},
+      purchase_discount = #{purchaseDiscount,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      activated = #{activated,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where level_id = #{levelId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="countTotal" resultType="java.lang.Integer">
+		select count(l.level_id) from t_level l
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and l.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+	</select>
+	<select id="selectLevelList" resultMap="BaseResultMap">
+		select l.* from t_level l
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and l.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+</mapper>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.StrategyMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Strategy" >
+    <id column="strategy_id" property="strategyId" jdbcType="INTEGER" />
+    <result column="strategy_name" property="strategyName" jdbcType="VARCHAR" />
+    <result column="strategy_content" property="strategyContent" jdbcType="VARCHAR" />
+    <result column="strategy_type" property="strategyType" jdbcType="INTEGER" />
+    <result column="balance_type" property="balanceType" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="activated" property="activated" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    strategy_id, strategy_name, strategy_content, strategy_type, balance_type, money, 
+    score, activated, deleted, created_date, updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_strategy
+    where strategy_id = #{strategyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_strategy
+    where strategy_id = #{strategyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Strategy" >
+    <selectKey resultType="java.lang.Integer" keyProperty="strategyId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_strategy (strategy_name, strategy_content, strategy_type, 
+      balance_type, money, score, 
+      activated, deleted, created_date, 
+      updated_date)
+    values (#{strategyName,jdbcType=VARCHAR}, #{strategyContent,jdbcType=VARCHAR}, #{strategyType,jdbcType=INTEGER}, 
+      #{balanceType,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, 
+      #{activated,jdbcType=BIT}, #{deleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Strategy" >
+    <selectKey resultType="java.lang.Integer" keyProperty="strategyId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_strategy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="strategyName != null" >
+        strategy_name,
+      </if>
+      <if test="strategyContent != null" >
+        strategy_content,
+      </if>
+      <if test="strategyType != null" >
+        strategy_type,
+      </if>
+      <if test="balanceType != null" >
+        balance_type,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="strategyName != null" >
+        #{strategyName,jdbcType=VARCHAR},
+      </if>
+      <if test="strategyContent != null" >
+        #{strategyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="strategyType != null" >
+        #{strategyType,jdbcType=INTEGER},
+      </if>
+      <if test="balanceType != null" >
+        #{balanceType,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Strategy" >
+    update t_strategy
+    <set >
+      <if test="strategyName != null" >
+        strategy_name = #{strategyName,jdbcType=VARCHAR},
+      </if>
+      <if test="strategyContent != null" >
+        strategy_content = #{strategyContent,jdbcType=VARCHAR},
+      </if>
+      <if test="strategyType != null" >
+        strategy_type = #{strategyType,jdbcType=INTEGER},
+      </if>
+      <if test="balanceType != null" >
+        balance_type = #{balanceType,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where strategy_id = #{strategyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Strategy" >
+    update t_strategy
+    set strategy_name = #{strategyName,jdbcType=VARCHAR},
+      strategy_content = #{strategyContent,jdbcType=VARCHAR},
+      strategy_type = #{strategyType,jdbcType=INTEGER},
+      balance_type = #{balanceType,jdbcType=INTEGER},
+      money = #{money,jdbcType=INTEGER},
+      score = #{score,jdbcType=INTEGER},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where strategy_id = #{strategyId,jdbcType=INTEGER}
+  </update>
+  <select id="countTotal" resultType="java.lang.Integer">
+		select count(s.strategy_id) from t_strategy s
+		where 1=1
+		<if test="params.strategyType !=null and params.strategyType !=''">
+			and s.strategy_type = #{params.strategyType,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<select id="selectStrategyList" resultMap="BaseResultMap">
+		select s.* from t_strategy s
+		where 1=1
+		<if test="params.strategyType !=null and params.strategyType !=''">
+			and s.strategy_type = #{params.strategyType,jdbcType=INTEGER}
+		</if>
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+</mapper>

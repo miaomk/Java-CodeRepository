@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techwells.wumei.dao.TechnologyEvaluateMapper">
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.TechnologyEvaluate">
+    <id column="evaluate_id" jdbcType="INTEGER" property="evaluateId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="technology_id" jdbcType="INTEGER" property="technologyId" />
+    <result column="demand_id" jdbcType="INTEGER" property="demandId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+    <result column="attitude_score" jdbcType="INTEGER" property="attitudeScore" />
+    <result column="image_score" jdbcType="INTEGER" property="imageScore" />
+    <result column="effect_score" jdbcType="INTEGER" property="effectScore" />
+    <result column="overall_score" jdbcType="VARCHAR" property="overallScore" />
+    <result column="activated" jdbcType="INTEGER" property="activated" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+  </resultMap>
+
+  <resultMap id="TechnologyEvaluateVOMap" type="com.techwells.wumei.domain.vo.TechnologyEvaluateVO">
+    <id column="evaluate_id" jdbcType="INTEGER" property="evaluateId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="nick_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_icon" jdbcType="VARCHAR" property="userIcon" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+    <result column="attitude_score" jdbcType="DECIMAL" property="attitudeScore" />
+    <result column="image_score" jdbcType="DECIMAL" property="imageScore" />
+    <result column="effect_score" jdbcType="DECIMAL" property="effectScore" />
+    <result column="overall_score" jdbcType="DECIMAL" property="overallScore" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    evaluate_id, user_id, technology_id, demand_id, content, image_url, attitude_score, 
+    image_score, effect_score, overall_score, activated, deleted, created_date, updated_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_technology_evaluate
+    where evaluate_id = #{evaluateId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_technology_evaluate
+    where evaluate_id = #{evaluateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.TechnologyEvaluate">
+    <selectKey keyProperty="evaluateId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_technology_evaluate (user_id, technology_id, demand_id, 
+      content, image_url, attitude_score, 
+      image_score, effect_score, overall_score, 
+      activated, deleted, created_date, 
+      updated_date)
+    values (#{userId,jdbcType=INTEGER}, #{technologyId,jdbcType=INTEGER}, #{demandId,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, #{attitudeScore,jdbcType=INTEGER}, 
+      #{imageScore,jdbcType=INTEGER}, #{effectScore,jdbcType=INTEGER}, #{overallScore,jdbcType=VARCHAR}, 
+      #{activated,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.TechnologyEvaluate">
+    <selectKey keyProperty="evaluateId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_technology_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="technologyId != null">
+        technology_id,
+      </if>
+      <if test="demandId != null">
+        demand_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="imageUrl != null">
+        image_url,
+      </if>
+      <if test="attitudeScore != null">
+        attitude_score,
+      </if>
+      <if test="imageScore != null">
+        image_score,
+      </if>
+      <if test="effectScore != null">
+        effect_score,
+      </if>
+      <if test="overallScore != null">
+        overall_score,
+      </if>
+      <if test="activated != null">
+        activated,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="updatedDate != null">
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="technologyId != null">
+        #{technologyId,jdbcType=INTEGER},
+      </if>
+      <if test="demandId != null">
+        #{demandId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="attitudeScore != null">
+        #{attitudeScore,jdbcType=INTEGER},
+      </if>
+      <if test="imageScore != null">
+        #{imageScore,jdbcType=INTEGER},
+      </if>
+      <if test="effectScore != null">
+        #{effectScore,jdbcType=INTEGER},
+      </if>
+      <if test="overallScore != null">
+        #{overallScore,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.TechnologyEvaluate">
+    update t_technology_evaluate
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="technologyId != null">
+        technology_id = #{technologyId,jdbcType=INTEGER},
+      </if>
+      <if test="demandId != null">
+        demand_id = #{demandId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="attitudeScore != null">
+        attitude_score = #{attitudeScore,jdbcType=INTEGER},
+      </if>
+      <if test="imageScore != null">
+        image_score = #{imageScore,jdbcType=INTEGER},
+      </if>
+      <if test="effectScore != null">
+        effect_score = #{effectScore,jdbcType=INTEGER},
+      </if>
+      <if test="overallScore != null">
+        overall_score = #{overallScore,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null">
+        activated = #{activated,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where evaluate_id = #{evaluateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.TechnologyEvaluate">
+    update t_technology_evaluate
+    set user_id = #{userId,jdbcType=INTEGER},
+      technology_id = #{technologyId,jdbcType=INTEGER},
+      demand_id = #{demandId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      attitude_score = #{attitudeScore,jdbcType=INTEGER},
+      image_score = #{imageScore,jdbcType=INTEGER},
+      effect_score = #{effectScore,jdbcType=INTEGER},
+      overall_score = #{overallScore,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=INTEGER},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where evaluate_id = #{evaluateId,jdbcType=INTEGER}
+  </update>
+
+  <select id="countTotal" resultType="int">
+    SELECT
+        count( 0 )
+    FROM
+        t_technology_evaluate e
+    <where>
+        e.deleted = 0
+      <if test="params.userId != '' and null != params.userId ">
+        AND e.user_id = #{params.userId}
+      </if>
+      <if test="params.technologyId != '' and null != params.technologyId ">
+        AND e.technology_id = #{params.technologyId}
+      </if>
+      <if test="params.demandId != '' and null != params.demandId ">
+        AND e.demand_id = #{params.demandId}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectTechnologyEvaluateList" resultMap="BaseResultMap">
+    SELECT
+        e.evaluate_id,
+        e.user_id,
+        e.technology_id,
+        e.demand_id,
+        e.content,
+        e.image_url,
+        e.attitude_score,
+        e.image_score,
+        e.effect_score,
+        e.overall_score,
+        e.activated,
+        e.deleted,
+        e.created_date,
+        e.updated_date
+    FROM
+        t_technology_evaluate e
+    <where>
+      <if test="params.userId != '' and null != params.userId ">
+        e.user_id = #{params.userId}
+      </if>
+      <if test="params.technologyId != '' and null != params.technologyId ">
+        AND e.technology_id = #{params.technologyId}
+      </if>
+      <if test="params.demandId != '' and null != params.demandId ">
+        AND e.demand_id = #{params.demandId}
+      </if>
+    </where>
+    limit
+    #{startNum},
+    #{pageSize}
+  </select>
+
+  <select id="selectIsEvaluate" resultMap="BaseResultMap">
+    SELECT
+        e.evaluate_id,
+        e.user_id,
+        e.technology_id,
+        e.demand_id,
+        e.content,
+        e.image_url,
+        e.attitude_score,
+        e.image_score,
+        e.effect_score,
+        e.overall_score,
+        e.activated,
+        e.deleted,
+        e.created_date,
+        e.updated_date
+    FROM
+        t_technology_evaluate e
+    WHERE
+        e.user_id = #{userId}
+        AND e.technology_id = #{technologyId}
+        AND e.demand_id = #{demandId}
+        AND e.deleted = 0
+  </select>
+
+  <select id="getTechnologyEvaluateList" resultMap="TechnologyEvaluateVOMap">
+    SELECT
+        e.evaluate_id,
+        e.attitude_score,
+        e.image_score,
+        e.effect_score,
+        e.overall_score,
+        e.created_date,
+        e.content,
+        e.image_url,
+        u.nick_name,
+        u.user_icon,
+        u.user_id,
+        count( p.pv_id ) AS pvCount
+    FROM
+        t_technology_evaluate e
+        INNER JOIN t_user u ON ( u.user_id = e.user_id AND u.deleted = 0 )
+        LEFT JOIN t_pv p ON ( p.relation_id = e.evaluate_id AND p.pv_type = 6 )
+    WHERE
+        e.technology_id = #{params.technologyId}
+        limit
+        #{startNum},
+        #{pageSize}
+  </select>
+</mapper>

@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Order" >
+    <id column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="merchant_id" property="merchantId" jdbcType="INTEGER" />
+    <result column="address_id" property="addressId" jdbcType="INTEGER" />
+    <result column="order_type" property="orderType" jdbcType="INTEGER" />
+    <result column="source_type" property="sourceType" jdbcType="INTEGER" />
+    <result column="source_id" property="sourceId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="order_amount" property="orderAmount" jdbcType="DOUBLE" />
+    <result column="consume_score" property="consumeScore" jdbcType="INTEGER" />
+    <result column="express_fee" property="expressFee" jdbcType="DOUBLE" />
+    <result column="arrival_time" property="arrivalTime" jdbcType="TIMESTAMP" />
+    <result column="user_message" property="userMessage" jdbcType="VARCHAR" />
+    <result column="invoice_info" property="invoiceInfo" jdbcType="VARCHAR" />
+    <result column="express_company" property="expressCompany" jdbcType="VARCHAR" />
+    <result column="express_code" property="expressCode" jdbcType="VARCHAR" />
+    <result column="express_expenses" property="expressExpenses" jdbcType="DOUBLE" />
+    <result column="coupon_fee" property="couponFee" jdbcType="DOUBLE" />
+    <result column="score_fee" property="scoreFee" jdbcType="DOUBLE" />
+    <result column="groupon_fee" property="grouponFee" jdbcType="DOUBLE" />
+    <result column="actual_amount" property="actualAmount" jdbcType="DOUBLE" />
+    <result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+    <result column="send_date" property="sendDate" jdbcType="TIMESTAMP" />
+    <result column="confirm_date" property="confirmDate" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="activated" property="activated" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  	<resultMap id="RsOrderMap" type="com.techwells.wumei.domain.rs.RsOrder"
+		extends="BaseResultMap">
+		
+		<result column="addressee" property="addressee" jdbcType="VARCHAR" />
+    <result column="addressee_phone" property="addresseePhone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    	
+		<collection property="orderProductList" column="order_id"
+			ofType="com.techwells.wumei.domain.rs.RsOrderProduct">
+			
+	<result column="op_id" property="opId" jdbcType="INTEGER" />
+	<result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_icon" property="productIcon" jdbcType="VARCHAR" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
+    <result column="balance_id" property="balanceId" jdbcType="INTEGER" />
+    <result column="purchase_price" property="purchasePrice" jdbcType="DOUBLE" />
+    <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="consume_score" property="consumeScore" jdbcType="INTEGER" />
+    <result column="is_handle_returns" property="isHandleReturns" jdbcType="INTEGER" />
+    <result column="is_appeal" property="isAppeal" jdbcType="INTEGER" />
+
+		</collection>
+
+	</resultMap>
+
+  <resultMap id="RsOrderInfoMap" type="com.techwells.wumei.domain.rs.RsOrderInfo"
+             extends="RsOrderMap">
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, order_sn, user_id, merchant_id, address_id, order_type, source_type, source_id, 
+    status, order_amount, consume_score, express_fee, arrival_time, user_message, invoice_info, 
+    express_company, express_code, express_expenses, coupon_fee, score_fee, groupon_fee, 
+    actual_amount, pay_date, send_date, confirm_date, description, activated, deleted, 
+    created_date, updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Order" >
+    <selectKey resultType="java.lang.Integer" keyProperty="orderId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order (order_sn, user_id, merchant_id, 
+      address_id, order_type, source_type, 
+      source_id, status, order_amount, 
+      consume_score, express_fee, arrival_time, 
+      user_message, invoice_info, express_company, 
+      express_code, express_expenses, coupon_fee, 
+      score_fee, groupon_fee, actual_amount, 
+      pay_date, send_date, confirm_date, 
+      description, activated, deleted, 
+      created_date, updated_date)
+    values (#{orderSn,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{merchantId,jdbcType=INTEGER}, 
+      #{addressId,jdbcType=INTEGER}, #{orderType,jdbcType=INTEGER}, #{sourceType,jdbcType=BIT}, 
+      #{sourceId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{orderAmount,jdbcType=DOUBLE}, 
+      #{consumeScore,jdbcType=INTEGER}, #{expressFee,jdbcType=DOUBLE}, #{arrivalTime,jdbcType=TIMESTAMP}, 
+      #{userMessage,jdbcType=VARCHAR}, #{invoiceInfo,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR}, 
+      #{expressCode,jdbcType=VARCHAR}, #{expressExpenses,jdbcType=DOUBLE}, #{couponFee,jdbcType=DOUBLE}, 
+      #{scoreFee,jdbcType=DOUBLE}, #{grouponFee,jdbcType=DOUBLE}, #{actualAmount,jdbcType=DOUBLE}, 
+      #{payDate,jdbcType=TIMESTAMP}, #{sendDate,jdbcType=TIMESTAMP}, #{confirmDate,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=VARCHAR}, #{activated,jdbcType=BIT}, #{deleted,jdbcType=INTEGER}, 
+      #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Order" >
+    <selectKey resultType="java.lang.Integer" keyProperty="orderId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderSn != null" >
+        order_sn,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="merchantId != null" >
+        merchant_id,
+      </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="sourceType != null" >
+        source_type,
+      </if>
+      <if test="sourceId != null" >
+        source_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="orderAmount != null" >
+        order_amount,
+      </if>
+      <if test="consumeScore != null" >
+        consume_score,
+      </if>
+      <if test="expressFee != null" >
+        express_fee,
+      </if>
+      <if test="arrivalTime != null" >
+        arrival_time,
+      </if>
+      <if test="userMessage != null" >
+        user_message,
+      </if>
+      <if test="invoiceInfo != null" >
+        invoice_info,
+      </if>
+      <if test="expressCompany != null" >
+        express_company,
+      </if>
+      <if test="expressCode != null" >
+        express_code,
+      </if>
+      <if test="expressExpenses != null" >
+        express_expenses,
+      </if>
+      <if test="couponFee != null" >
+        coupon_fee,
+      </if>
+      <if test="scoreFee != null" >
+        score_fee,
+      </if>
+      <if test="grouponFee != null" >
+        groupon_fee,
+      </if>
+      <if test="actualAmount != null" >
+        actual_amount,
+      </if>
+      <if test="payDate != null" >
+        pay_date,
+      </if>
+      <if test="sendDate != null" >
+        send_date,
+      </if>
+      <if test="confirmDate != null" >
+        confirm_date,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderSn != null" >
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantId != null" >
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="sourceType != null" >
+        #{sourceType,jdbcType=BIT},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmount != null" >
+        #{orderAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="consumeScore != null" >
+        #{consumeScore,jdbcType=INTEGER},
+      </if>
+      <if test="expressFee != null" >
+        #{expressFee,jdbcType=DOUBLE},
+      </if>
+      <if test="arrivalTime != null" >
+        #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userMessage != null" >
+        #{userMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceInfo != null" >
+        #{invoiceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCompany != null" >
+        #{expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null" >
+        #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressExpenses != null" >
+        #{expressExpenses,jdbcType=DOUBLE},
+      </if>
+      <if test="couponFee != null" >
+        #{couponFee,jdbcType=DOUBLE},
+      </if>
+      <if test="scoreFee != null" >
+        #{scoreFee,jdbcType=DOUBLE},
+      </if>
+      <if test="grouponFee != null" >
+        #{grouponFee,jdbcType=DOUBLE},
+      </if>
+      <if test="actualAmount != null" >
+        #{actualAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="payDate != null" >
+        #{payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmDate != null" >
+        #{confirmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Order" >
+    update t_order
+    <set >
+      <if test="orderSn != null" >
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="merchantId != null" >
+        merchant_id = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null" >
+        address_id = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=INTEGER},
+      </if>
+      <if test="sourceType != null" >
+        source_type = #{sourceType,jdbcType=BIT},
+      </if>
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderAmount != null" >
+        order_amount = #{orderAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="consumeScore != null" >
+        consume_score = #{consumeScore,jdbcType=INTEGER},
+      </if>
+      <if test="expressFee != null" >
+        express_fee = #{expressFee,jdbcType=DOUBLE},
+      </if>
+      <if test="arrivalTime != null" >
+        arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userMessage != null" >
+        user_message = #{userMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceInfo != null" >
+        invoice_info = #{invoiceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCompany != null" >
+        express_company = #{expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null" >
+        express_code = #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressExpenses != null" >
+        express_expenses = #{expressExpenses,jdbcType=DOUBLE},
+      </if>
+      <if test="couponFee != null" >
+        coupon_fee = #{couponFee,jdbcType=DOUBLE},
+      </if>
+      <if test="scoreFee != null" >
+        score_fee = #{scoreFee,jdbcType=DOUBLE},
+      </if>
+      <if test="grouponFee != null" >
+        groupon_fee = #{grouponFee,jdbcType=DOUBLE},
+      </if>
+      <if test="actualAmount != null" >
+        actual_amount = #{actualAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="payDate != null" >
+        pay_date = #{payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendDate != null" >
+        send_date = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmDate != null" >
+        confirm_date = #{confirmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Order" >
+    update t_order
+    set order_sn = #{orderSn,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      merchant_id = #{merchantId,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
+      order_type = #{orderType,jdbcType=INTEGER},
+      source_type = #{sourceType,jdbcType=BIT},
+      source_id = #{sourceId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      order_amount = #{orderAmount,jdbcType=DOUBLE},
+      consume_score = #{consumeScore,jdbcType=INTEGER},
+      express_fee = #{expressFee,jdbcType=DOUBLE},
+      arrival_time = #{arrivalTime,jdbcType=TIMESTAMP},
+      user_message = #{userMessage,jdbcType=VARCHAR},
+      invoice_info = #{invoiceInfo,jdbcType=VARCHAR},
+      express_company = #{expressCompany,jdbcType=VARCHAR},
+      express_code = #{expressCode,jdbcType=VARCHAR},
+      express_expenses = #{expressExpenses,jdbcType=DOUBLE},
+      coupon_fee = #{couponFee,jdbcType=DOUBLE},
+      score_fee = #{scoreFee,jdbcType=DOUBLE},
+      groupon_fee = #{grouponFee,jdbcType=DOUBLE},
+      actual_amount = #{actualAmount,jdbcType=DOUBLE},
+      pay_date = #{payDate,jdbcType=TIMESTAMP},
+      send_date = #{sendDate,jdbcType=TIMESTAMP},
+      confirm_date = #{confirmDate,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=INTEGER},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+   <select id="countTotal" resultType="java.lang.Integer">
+		select count(o.order_id) from t_order o
+		inner join t_order_product op
+		on o.order_id = op.order_id
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and o.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+		<if test="params.status !=null and params.status !=''">
+			and o.status = #{params.status,jdbcType=INTEGER}
+		</if>
+     <if test="params.orderId !=null and params.orderId !=''">
+       and o.order_sn = #{params.orderId,jdbcType=VARCHAR}
+     </if>
+     <if test="params.createTime !=null and params.createTime !=''">
+       and  LOCATE( #{params.createTime,jdbcType=VARCHAR}, o.created_date ) > 0
+     </if>
+     <if test="params.orderType !=null and params.orderType !=''">
+       and o.order_type = #{params.orderType,jdbcType=INTEGER}
+     </if>
+     <if test="params.sourceType !=null and params.sourceType !=''">
+       and o.source_type = #{params.sourceType,jdbcType=INTEGER}
+     </if>
+       and o.deleted = '1'
+	</select>
+	<select id="selectOrderList" resultMap="RsOrderMap">
+		select o.*, op.* , a.*, p.product_name , p.product_icon from t_order o
+		left join t_address a
+		on o.address_id = a.address_id
+		left join t_order_product op
+		on o.order_id = op.order_id
+		left join t_product p
+		on op.product_id = p.product_id
+		
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and o.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+		<if test="params.status !=null and params.status !=''">
+			and o.status = #{params.status,jdbcType=INTEGER}
+		</if>
+		<if test="params.merchantId !=null and params.merchantId !=''">
+			and o.merchant_id = #{params.merchantId,jdbcType=INTEGER}
+		</if>
+      <if test="params.orderId !=null and params.orderId !=''">
+        and o.order_sn = #{params.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="params.createTime !=null and params.createTime !=''">
+        and  LOCATE( #{params.createTime,jdbcType=VARCHAR}, o.created_date ) > 0
+      </if>
+      <if test="params.orderType !=null and params.orderType !=''">
+        and  o.order_type = #{params.orderType,jdbcType=INTEGER}
+      </if>
+      <if test="params.orderStatus !=null and params.orderStatus !=''">
+        and  o.status = #{params.orderStatus,jdbcType=INTEGER}
+      </if>
+      <if test="params.sourceType !=null and params.sourceType !=''">
+        and o.source_type = #{params.sourceType,jdbcType=INTEGER}
+      </if>
+        and o.deleted = '1'
+		order by o.created_date desc
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+
+
+  <select id="getOrderCount" resultType="integer">
+		select
+		 count(0)
+		 from t_order o
+		left join t_address a
+		on o.address_id = a.address_id
+		left join t_order_product op
+		on o.order_id = op.order_id
+		left join t_product p
+		on op.product_id = p.product_id
+
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and o.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+		<if test="params.status !=null and params.status !=''">
+			and o.status = #{params.status,jdbcType=INTEGER}
+		</if>
+		<if test="params.merchantId !=null and params.merchantId !=''">
+			and o.merchant_id = #{params.merchantId,jdbcType=INTEGER}
+		</if>
+      <if test="params.orderId !=null and params.orderId !=''">
+        and o.order_sn = #{params.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="params.createTime !=null and params.createTime !=''">
+        and  LOCATE( #{params.createTime,jdbcType=VARCHAR}, o.created_date ) > 0
+      </if>
+      <if test="params.orderType !=null and params.orderType !=''">
+        and  o.order_type = #{params.orderType,jdbcType=INTEGER}
+      </if>
+      <if test="params.orderStatus !=null and params.orderStatus !=''">
+        and  o.status = #{params.orderStatus,jdbcType=INTEGER}
+      </if>
+      <if test="params.sourceType !=null and params.sourceType !=''">
+        and o.source_type = #{params.sourceType,jdbcType=INTEGER}
+      </if>
+        and o.deleted = '1'
+	</select>
+	
+	<select id="selectOrderByOrderId" resultMap="RsOrderMap">
+		select o.*, op.*, a.*, p.product_name , p.product_icon from t_order o
+		left join t_address a
+		on o.address_id = a.address_id
+		left join t_order_product op
+		on o.order_id = op.order_id
+		left join t_product p
+		on op.product_id = p.product_id
+		where o.order_id = #{params.orderId,jdbcType=INTEGER}
+	</select>
+
+    <!--更新订单备注信息-->
+    <update id="updateDescription">
+      UPDATE t_order
+      SET description = #{description}
+      WHERE
+          order_id = #{orderId}
+    </update>
+
+    <!--批量删除订单-->
+    <update id="batchDelete">
+      UPDATE t_order
+      SET deleted = '2'
+      WHERE order_id IN
+      <foreach collection="ids" item="ids" open="(" separator="," close=")">
+        #{ids}
+      </foreach>
+    </update>
+
+   <!--批量订单发货，关闭订单-->
+   <update id="batchOperationOrder">
+      UPDATE t_order
+      SET status = #{orderType}
+      WHERE order_id IN
+      <foreach collection="ids" item="ids" open="(" separator="," close=")">
+        #{ids}
+      </foreach>
+    </update>
+  <select id="countSale" resultType="java.lang.Integer">
+    SELECT
+        count( o.order_id )
+    FROM
+        t_order o
+        INNER JOIN t_order_product op ON o.order_id = op.order_id
+    WHERE
+        `status` = 5
+        AND product_id = #{productId}
+  </select>
+
+  <select id="countOrder" resultType="java.lang.Integer">
+    SELECT
+        count( 0 )
+    FROM
+        t_order
+    WHERE
+	merchant_id = #{merchantId}
+	AND `status` = #{orderStatus}
+  </select>
+
+  <select id="merchantOrderList" resultType="com.techwells.wumei.domain.rs.BillVO">
+    SELECT
+        order_amount AS payment,
+        order_id AS flowId
+    FROM
+        t_order
+    WHERE
+        `status` = 5
+        AND merchant_id =#{merchantId}
+  </select>
+
+  <select id="selectMerchantOrderInfo" resultMap="RsOrderInfoMap">
+    SELECT
+        o.*,
+        op.*,
+        a.*,
+        p.product_name,
+        p.product_icon
+    FROM
+        t_order o
+        LEFT JOIN t_address a ON o.address_id = a.address_id
+        LEFT JOIN t_order_product op ON o.order_id = op.order_id
+        LEFT JOIN t_product p ON op.product_id = p.product_id
+    WHERE
+        o.order_id = #{orderId}
+	</select>
+</mapper>

@@ -1,0 +1,86 @@
+######################## 配置spring的基本信息#######################################
+spring:
+  datasource:                ## 配置数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://101.133.164.180:3306/yanyixingqiu?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: WRyyxq20191224.
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 6000
+    timeBetweenEvictionRunsMillis: 6000
+    minEvictableIdleTimeMillis: 25200000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    validationQuery: SELECT 1 FROM DUAL
+    RemoveAbandanded: true
+    removeAbandonedTimeout: 1800
+    logAbandoned: true
+  http:
+    encoding:                # 配置POST中文乱码
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  servlet:
+    multipart:
+      max-file-size: 200MB   # 限制一次上传的单个文件的总大小 ，单位可以是KB和MB
+      max-request-size: 500MB   # 限制一次上传的所有文件的总大小
+     
+  mvc:
+    static-path-pattern: /**
+    view: 
+      prefix: /WEB-INF/
+      suffix: .jsp
+
+  redis:
+    host: 101.133.164.180
+    port: 6379
+    password: yanyixingqiu
+    database: 0
+web:
+  upload-path: E:/
+      
+############################## server的配置信息 ###################################
+server:
+  port: 8080                    # 配置访问的端口号
+  servlet:
+    context-path: /wumei-server   # 配置发布的项目名称
+  tomcat:
+    uri-encoding: UTF-8         #配置tomcat的编码格式，用于处理get请求的乱码问题
+    
+
+######################### mybatis的配置信息 ######################################
+
+mybatis:
+  # 指定mapper配置文件的位置
+  mapper-locations: classpath*:com/techwells/wumei/mapping/*.xml
+  type-handlers-package: com.techwells.wumei.util.mybatis
+#  configuration:
+#    map-underscore-to-camel-case: true   # 启用驼峰方式
+
+######################### Redis的配置信息  #################################################
+
+############################################### 系统的配置信息 ################################################################
+project:
+  config:
+    API_SERVER_HOST: a1.easemob.com  # 服务器
+   # APPKEY: 1114170515115076#sitesocial  # appkey
+    APPKEY: 7b7515392c2015044348e85a  # appkey
+    APP_CLIENT_ID: YXA60hVwKMiSTu2CS0FBckswZg    # 公钥
+    APP_CLIENT_SECRET: YXA6wj5UI3hN8cQDY1pgR5pgzdtNN_o # 私钥
+
+############################################### 系统的配置信息 ################################################################
+
+
+
+
+
+
+
+
+
+

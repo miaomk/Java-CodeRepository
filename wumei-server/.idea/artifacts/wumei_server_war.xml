@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wumei-server:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>wumei-server</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="wumei-server-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="wumei-server:war exploded" />
+    </root>
+  </artifact>
+</component>

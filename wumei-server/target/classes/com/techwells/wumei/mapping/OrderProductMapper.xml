@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.OrderProductMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.OrderProduct" >
+    <id column="op_id" property="opId" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
+    <result column="balance_id" property="balanceId" jdbcType="INTEGER" />
+    <result column="purchase_price" property="purchasePrice" jdbcType="DOUBLE" />
+    <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="consume_score" property="consumeScore" jdbcType="INTEGER" />
+    <result column="is_handle_returns" property="isHandleReturns" jdbcType="INTEGER" />
+    <result column="is_appeal" property="isAppeal" jdbcType="INTEGER" />
+    <result column="activity_type" property="activityType" jdbcType="INTEGER" />
+    <result column="activity_id" property="activityId" jdbcType="INTEGER" />
+    <result column="activated" property="activated" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+    <resultMap id="VoMopMap" type="com.techwells.wumei.domain.rs.VoMerchantOrderProduct" >
+    <result column="sale_count" property="saleCount" jdbcType="INTEGER" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
+	<result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_icon" property="productIcon" jdbcType="VARCHAR" />
+    <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    op_id, order_id, product_id, specification, balance_id, purchase_price, sale_price, 
+    number, consume_score, is_handle_returns, is_appeal, activity_type, activity_id, 
+    activated, deleted, created_date, updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_product
+    where op_id = #{opId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_order_product
+    where op_id = #{opId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.OrderProduct" >
+    <selectKey resultType="java.lang.Integer" keyProperty="opId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order_product (order_id, product_id, specification, 
+      balance_id, purchase_price, sale_price, 
+      number, consume_score, is_handle_returns, 
+      is_appeal, activity_type, activity_id, 
+      activated, deleted, created_date, 
+      updated_date)
+    values (#{orderId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
+      #{balanceId,jdbcType=INTEGER}, #{purchasePrice,jdbcType=DOUBLE}, #{salePrice,jdbcType=DOUBLE}, 
+      #{number,jdbcType=INTEGER}, #{consumeScore,jdbcType=INTEGER}, #{isHandleReturns,jdbcType=INTEGER}, 
+      #{isAppeal,jdbcType=INTEGER}, #{activityType,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, 
+      #{activated,jdbcType=BIT}, #{deleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP}, 
+      #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.OrderProduct" >
+    <selectKey resultType="java.lang.Integer" keyProperty="opId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_order_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="specification != null" >
+        specification,
+      </if>
+      <if test="balanceId != null" >
+        balance_id,
+      </if>
+      <if test="purchasePrice != null" >
+        purchase_price,
+      </if>
+      <if test="salePrice != null" >
+        sale_price,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="consumeScore != null" >
+        consume_score,
+      </if>
+      <if test="isHandleReturns != null" >
+        is_handle_returns,
+      </if>
+      <if test="isAppeal != null" >
+        is_appeal,
+      </if>
+      <if test="activityType != null" >
+        activity_type,
+      </if>
+      <if test="activityId != null" >
+        activity_id,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceId != null" >
+        #{balanceId,jdbcType=INTEGER},
+      </if>
+      <if test="purchasePrice != null" >
+        #{purchasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="consumeScore != null" >
+        #{consumeScore,jdbcType=INTEGER},
+      </if>
+      <if test="isHandleReturns != null" >
+        #{isHandleReturns,jdbcType=INTEGER},
+      </if>
+      <if test="isAppeal != null" >
+        #{isAppeal,jdbcType=INTEGER},
+      </if>
+      <if test="activityType != null" >
+        #{activityType,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null" >
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.OrderProduct" >
+    update t_order_product
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null" >
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceId != null" >
+        balance_id = #{balanceId,jdbcType=INTEGER},
+      </if>
+      <if test="purchasePrice != null" >
+        purchase_price = #{purchasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="salePrice != null" >
+        sale_price = #{salePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="consumeScore != null" >
+        consume_score = #{consumeScore,jdbcType=INTEGER},
+      </if>
+      <if test="isHandleReturns != null" >
+        is_handle_returns = #{isHandleReturns,jdbcType=INTEGER},
+      </if>
+      <if test="isAppeal != null" >
+        is_appeal = #{isAppeal,jdbcType=INTEGER},
+      </if>
+      <if test="activityType != null" >
+        activity_type = #{activityType,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null" >
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where op_id = #{opId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.OrderProduct" >
+    update t_order_product
+    set order_id = #{orderId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      specification = #{specification,jdbcType=VARCHAR},
+      balance_id = #{balanceId,jdbcType=INTEGER},
+      purchase_price = #{purchasePrice,jdbcType=DOUBLE},
+      sale_price = #{salePrice,jdbcType=DOUBLE},
+      number = #{number,jdbcType=INTEGER},
+      consume_score = #{consumeScore,jdbcType=INTEGER},
+      is_handle_returns = #{isHandleReturns,jdbcType=INTEGER},
+      is_appeal = #{isAppeal,jdbcType=INTEGER},
+      activity_type = #{activityType,jdbcType=INTEGER},
+      activity_id = #{activityId,jdbcType=INTEGER},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where op_id = #{opId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="countTotal" resultType="java.lang.Integer">
+		select count(o.op_id) from t_order_product o
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and o.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+    <if test="params.productId !=null and params.productId !=''">
+      and o.product_id = #{params.productId,jdbcType=INTEGER}
+    </if>
+	</select>
+	<select id="selectOrderProductList" resultMap="BaseResultMap">
+		select o.* from t_order_product o
+		where 1=1
+		<if test="params.userId !=null and params.userId !=''">
+			and o.user_id = #{params.userId,jdbcType=INTEGER}
+		</if>
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectMerchantOrderProductList" resultMap="VoMopMap">	
+		select o.merchant_id ,op.sale_price, op.specification,  sum(op.number) sale_count, p.product_name, p.product_icon, s.stock from t_order_product op
+		inner join t_order o
+		on o.order_id = op.order_id
+		inner join t_product p
+		on p.product_id = op.product_id
+		left join t_stock s
+		on s.product_id = op.product_id and op.specification = s.specification
+		where o.merchant_id = #{params.merchantId,jdbcType=INTEGER}
+		group by o.merchant_id, op.specification		
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+	
+	
+  <select id="countTotalMop" resultType="java.lang.Integer">
+  		select count(1) from (
+		select o.merchant_id , op.sale_price, op.specification,  sum(op.number) sale_count, p.product_name, p.product_icon, s.stock from t_order_product op
+		inner join t_order o
+		on o.order_id = op.order_id
+		inner join t_product p
+		on p.product_id = op.product_id
+		left join t_stock s
+		on s.product_id = op.product_id and op.specification = s.specification
+		where o.merchant_id = #{params.merchantId,jdbcType=INTEGER}
+		group by o.merchant_id, op.specification) ss
+		</select>
+
+</mapper>

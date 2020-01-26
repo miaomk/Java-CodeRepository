@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techwells.wumei.dao.CouponMapper">
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Coupon">
+    <id column="coupon_id" jdbcType="INTEGER" property="couponId" />
+    <result column="merchant_id" jdbcType="INTEGER" property="merchantId" />
+    <result column="coupon_type" jdbcType="INTEGER" property="couponType" />
+    <result column="coupon_name" jdbcType="VARCHAR" property="couponName" />
+    <result column="platform" jdbcType="INTEGER" property="platform" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="per_limit" jdbcType="INTEGER" property="perLimit" />
+    <result column="min_point" jdbcType="DOUBLE" property="minPoint" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="use_type" jdbcType="INTEGER" property="useType" />
+    <result column="product_type" jdbcType="INTEGER" property="productType" />
+    <result column="product_ids" jdbcType="VARCHAR" property="productIds" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="publish_count" jdbcType="INTEGER" property="publishCount" />
+    <result column="use_count" jdbcType="INTEGER" property="useCount" />
+    <result column="receive_count" jdbcType="INTEGER" property="receiveCount" />
+    <result column="enable_time" jdbcType="TIMESTAMP" property="enableTime" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="user_level" jdbcType="INTEGER" property="userLevel" />
+    <result column="activated" jdbcType="BIT" property="activated" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    coupon_id, merchant_id, coupon_type, coupon_name, platform, amount, per_limit, min_point,
+    start_time, end_time, use_type, product_type, product_ids, description, publish_count,
+    use_count, receive_count, enable_time, code, user_level, activated, deleted, created_date,
+    updated_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_coupon
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_coupon
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Coupon">
+    <selectKey keyProperty="couponId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_coupon (merchant_id, coupon_type, coupon_name,
+    platform, amount, per_limit,
+    min_point, start_time, end_time,
+    use_type, product_type, product_ids,
+    description, publish_count, use_count,
+    receive_count, enable_time, code,
+    user_level, activated, deleted,
+    created_date, updated_date)
+    values (#{merchantId,jdbcType=INTEGER}, #{couponType,jdbcType=INTEGER}, #{couponName,jdbcType=VARCHAR},
+    #{platform,jdbcType=INTEGER}, #{amount,jdbcType=DOUBLE}, #{perLimit,jdbcType=INTEGER},
+    #{minPoint,jdbcType=DOUBLE}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
+    #{useType,jdbcType=INTEGER}, #{productType,jdbcType=INTEGER}, #{productIds,jdbcType=VARCHAR},
+    #{description,jdbcType=VARCHAR}, #{publishCount,jdbcType=INTEGER}, #{useCount,jdbcType=INTEGER},
+    #{receiveCount,jdbcType=INTEGER}, #{enableTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR},
+    #{userLevel,jdbcType=INTEGER}, #{activated,jdbcType=BIT}, #{deleted,jdbcType=BIT},
+    #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Coupon">
+    <selectKey keyProperty="couponId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="couponType != null">
+        coupon_type,
+      </if>
+      <if test="couponName != null">
+        coupon_name,
+      </if>
+      <if test="platform != null">
+        platform,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="perLimit != null">
+        per_limit,
+      </if>
+      <if test="minPoint != null">
+        min_point,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="useType != null">
+        use_type,
+      </if>
+      <if test="productType != null">
+        product_type,
+      </if>
+      <if test="productIds != null">
+        product_ids,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="publishCount != null">
+        publish_count,
+      </if>
+      <if test="useCount != null">
+        use_count,
+      </if>
+      <if test="receiveCount != null">
+        receive_count,
+      </if>
+      <if test="enableTime != null">
+        enable_time,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="userLevel != null">
+        user_level,
+      </if>
+      <if test="activated != null">
+        activated,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="updatedDate != null">
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null">
+        #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="couponName != null">
+        #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        #{platform,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="perLimit != null">
+        #{perLimit,jdbcType=INTEGER},
+      </if>
+      <if test="minPoint != null">
+        #{minPoint,jdbcType=DOUBLE},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useType != null">
+        #{useType,jdbcType=INTEGER},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=INTEGER},
+      </if>
+      <if test="productIds != null">
+        #{productIds,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="publishCount != null">
+        #{publishCount,jdbcType=INTEGER},
+      </if>
+      <if test="useCount != null">
+        #{useCount,jdbcType=INTEGER},
+      </if>
+      <if test="receiveCount != null">
+        #{receiveCount,jdbcType=INTEGER},
+      </if>
+      <if test="enableTime != null">
+        #{enableTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userLevel != null">
+        #{userLevel,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null">
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Coupon">
+    update t_coupon
+    <set>
+      <if test="merchantId != null">
+        merchant_id = #{merchantId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null">
+        coupon_type = #{couponType,jdbcType=INTEGER},
+      </if>
+      <if test="couponName != null">
+        coupon_name = #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="platform != null">
+        platform = #{platform,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="perLimit != null">
+        per_limit = #{perLimit,jdbcType=INTEGER},
+      </if>
+      <if test="minPoint != null">
+        min_point = #{minPoint,jdbcType=DOUBLE},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useType != null">
+        use_type = #{useType,jdbcType=INTEGER},
+      </if>
+      <if test="productType != null">
+        product_type = #{productType,jdbcType=INTEGER},
+      </if>
+      <if test="productIds != null">
+        product_ids = #{productIds,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="publishCount != null">
+        publish_count = #{publishCount,jdbcType=INTEGER},
+      </if>
+      <if test="useCount != null">
+        use_count = #{useCount,jdbcType=INTEGER},
+      </if>
+      <if test="receiveCount != null">
+        receive_count = #{receiveCount,jdbcType=INTEGER},
+      </if>
+      <if test="enableTime != null">
+        enable_time = #{enableTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userLevel != null">
+        user_level = #{userLevel,jdbcType=INTEGER},
+      </if>
+      <if test="activated != null">
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Coupon">
+    update t_coupon
+    set merchant_id = #{merchantId,jdbcType=INTEGER},
+      coupon_type = #{couponType,jdbcType=INTEGER},
+      coupon_name = #{couponName,jdbcType=VARCHAR},
+      platform = #{platform,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DOUBLE},
+      per_limit = #{perLimit,jdbcType=INTEGER},
+      min_point = #{minPoint,jdbcType=DOUBLE},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      use_type = #{useType,jdbcType=INTEGER},
+      product_type = #{productType,jdbcType=INTEGER},
+      product_ids = #{productIds,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      publish_count = #{publishCount,jdbcType=INTEGER},
+      use_count = #{useCount,jdbcType=INTEGER},
+      receive_count = #{receiveCount,jdbcType=INTEGER},
+      enable_time = #{enableTime,jdbcType=TIMESTAMP},
+      code = #{code,jdbcType=VARCHAR},
+      user_level = #{userLevel,jdbcType=INTEGER},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+    <select id="countTotal" resultType="java.lang.Integer">
+		select count(c.coupon_id) from t_coupon c
+      <where>
+        <if test="params.merchantId != null and params.merchantId != '' ">
+          AND c.merchant_id = #{params.merchantId}
+        </if>
+        <if test="params.couponName !=null and params.couponName !=''">
+          AND LOCATE(#{params.couponName,jdbcType=VARCHAR},c.coupon_name) > 0
+        </if>
+        <if test="params.couponType !=null and params.couponType !=''">
+          AND c.coupon_type = #{params.couponType,jdbcType=INTEGER}
+        </if>
+      </where>
+	</select>
+	<select id="selectCouponList" resultMap="BaseResultMap">
+		select c.* from t_coupon c
+      <where>
+        <if test="params.merchantId != null and params.merchantId != '' ">
+          AND c.merchant_id = #{params.merchantId}
+        </if>
+        <if test="params.couponName !=null and params.couponName !=''">
+          AND LOCATE(#{params.couponName,jdbcType=VARCHAR},c.coupon_name) > 0
+        </if>
+        <if test="params.couponType !=null and params.couponType !=''">
+          AND c.coupon_type = #{params.couponType,jdbcType=INTEGER}
+        </if>
+        <if test="params.endTime != null and params.endTime != '' ">
+          AND c.end_time &lt; NOW()
+        </if>
+        <if test="params.activated != null and params.activated != '' ">
+          AND c.activated = #{params.activated,jdbcType=INTEGER}
+        </if>
+      </where>
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+
+  <delete id="batchDelete">
+    delete from t_coupon
+    where coupon_id in
+    <foreach collection="ids" item="id" index="index"
+             open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+
+
+  <select id="getCouponListByMerchantId" resultMap="BaseResultMap">
+    SELECT
+        coupon_id,
+        merchant_id,
+        coupon_type,
+        coupon_name,
+        platform,
+        amount,
+        per_limit,
+        min_point,
+        start_time,
+        end_time,
+        use_type,
+        product_type,
+        product_ids,
+        description,
+        publish_count,
+        use_count,
+        receive_count,
+        enable_time,
+        `code`,
+        user_level,
+        activated
+    FROM
+        t_coupon
+    WHERE
+        merchant_id = 0
+        AND enable_time > NOW( )
+  </select>
+
+  <update id="batchUpdateCouponStatus">
+    <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
+      UPDATE t_coupon
+      set
+      activated = 1
+      WHERE coupon_id = #{bean.couponId}
+    </foreach>
+  </update>
+</mapper>

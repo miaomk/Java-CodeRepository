@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.techwells.wumei.dao.RecommendMapper" >
+  <resultMap id="BaseResultMap" type="com.techwells.wumei.domain.Recommend" >
+    <id column="recommend_id" property="recommendId" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="sort_index" property="sortIndex" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="activated" property="activated" jdbcType="BIT" />
+    <result column="deleted" property="deleted" jdbcType="BIT" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <resultMap type="com.techwells.wumei.domain.rs.RsRecommend" id="RsRecommendMap" extends="BaseResultMap">
+  	<result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_icon" property="productIcon" jdbcType="VARCHAR" />
+     <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    recommend_id, product_id, user_id, sort_index, start_time, end_time, activated, deleted, 
+    created_date, updated_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_recommend
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_recommend
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techwells.wumei.domain.Recommend" >
+    <selectKey resultType="java.lang.Integer" keyProperty="recommendId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_recommend (product_id, user_id, sort_index, 
+      start_time, end_time, activated, 
+      deleted, created_date, updated_date
+      )
+    values (#{productId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{sortIndex,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{activated,jdbcType=BIT}, 
+      #{deleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.techwells.wumei.domain.Recommend" >
+    <selectKey resultType="java.lang.Integer" keyProperty="recommendId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="sortIndex != null" >
+        sort_index,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="activated != null" >
+        activated,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+      <if test="createdDate != null" >
+        created_date,
+      </if>
+      <if test="updatedDate != null" >
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="productId != null" >
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sortIndex != null" >
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activated != null" >
+        #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techwells.wumei.domain.Recommend" >
+    update t_recommend
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sortIndex != null" >
+        sort_index = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activated != null" >
+        activated = #{activated,jdbcType=BIT},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createdDate != null" >
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techwells.wumei.domain.Recommend" >
+    update t_recommend
+    set product_id = #{productId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      sort_index = #{sortIndex,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      activated = #{activated,jdbcType=BIT},
+      deleted = #{deleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where recommend_id = #{recommendId,jdbcType=INTEGER}
+  </update>
+	
+   <select id="countTotal" resultType="java.lang.Integer">
+		select count(i.recommend_id) 		from t_recommend i
+     left join t_product p
+     on p.product_id= i.product_id
+     where 1=1
+     <if test="params.productName !=null and params.productName !=''">
+         and p.product_name = #{params.productName,jdbcType=VARCHAR}
+       </if>
+       <if test="params.activated !=null and params.activated !=''">
+         and i.activated = #{params.activated,jdbcType=INTEGER}
+       </if>
+       and i.deleted = '0'
+	</select>
+	<select id="selectRecommendList" resultMap="RsRecommendMap">
+		select i.* ,p.product_name,p.product_icon,p.sale_price
+		from t_recommend i
+		left join t_product p
+		on p.product_id= i.product_id
+		where 1=1 
+		<if test="params.productName !=null and params.productName !=''">
+			and p.product_name = #{params.productName,jdbcType=VARCHAR}
+		</if>
+        <if test="params.activated !=null and params.activated !=''">
+          and i.activated = #{params.activated,jdbcType=INTEGER}
+        </if>
+        and i.deleted = '0'
+		order by i.sort_index desc
+		limit
+		#{startNum,jdbcType=INTEGER},
+		#{pageSize,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="batchDelete">
+		delete from t_recommend where recommend_id in
+		<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+			#{id}		
+		</foreach>
+	</delete>
+	
+	<update id="batchUpdateStatus" >
+		update t_recommend set activated = #{activated}
+		where recommend_id in
+		<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+			#{id}		
+		</foreach>
+	</update>
+
+    <update id="batchDeleteByProductId">
+        update t_recommend set deleted = '1'
+		where product_id in
+      <foreach collection="productIds" item="id" index="index" open="(" separator="," close=")">
+        #{id}
+      </foreach>
+    </update>
+
+  <update id="updateEndRecommend" >
+    UPDATE t_recommend
+    set activated = 2
+    <where>
+      end_time &lt;= NOW( )
+      and activated = 1
+    </where>
+  </update>
+
+  <update id="updateStartRecommend" >
+    UPDATE t_recommend
+    set activated = 1
+    <where>
+      start_time &lt;= NOW( )
+      and activated = 0
+    </where>
+  </update>
+</mapper>

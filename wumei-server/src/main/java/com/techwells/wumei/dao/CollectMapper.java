@@ -43,7 +43,7 @@ public interface CollectMapper {
      *
      * @param relationId  被收藏id
      * @param userId      用户id
-     * @param collectType 收藏类型  1 收藏商品 2 收藏活动 3 收藏租赁商品
+     * @param collectType 收藏类型 1 收藏商品 2 收藏活动 3 收藏租赁商品 4 收藏大师 5 收藏需求
      * @return int
      */
     Integer getCollectId(@Param("relationId") String relationId,

@@ -71,7 +71,7 @@ public class RsTechnology extends Technology {
      */
     private Integer caseImageCount;
     /**
-     * 工作案例图片
+     * 工作案例图片数组
      */
     private String[] caseImage;
     /**

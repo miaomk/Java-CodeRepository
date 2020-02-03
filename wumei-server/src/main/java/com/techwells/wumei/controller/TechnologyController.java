@@ -503,26 +503,32 @@ public class TechnologyController {
     /**
      * 获取大师信息
      *
-     * @param userId 大师id
+     * @param technologyId 大师id
      * @return ResultInfo
      */
     @RequestMapping(value = "/getTechnologyInfo")
     @ResponseBody
-    public ResultInfo getTechnologyInfo(@RequestParam("userId") Integer userId) {
+    public ResultInfo getTechnologyInfo(@RequestParam("userId") Integer userId,
+                                        @RequestParam("technologyId") Integer technologyId) {
         ResultInfo resultInfo = new ResultInfo();
 
-        if (null == userId) {
+        if (null == technologyId) {
             resultInfo.setMessage("大师id不能为空！");
             resultInfo.setCode("10000");
             return resultInfo;
         }
-        log.info("获取大师详细信息开始,用户id为：{}", userId);
+        if (null == userId) {
+            resultInfo.setMessage("用户id不能为空！");
+            resultInfo.setCode("10001");
+            return resultInfo;
+        }
+        log.info("获取大师详细信息开始,用户id为：{},大师id为：{}", userId, technologyId);
 
 
         RsTechnology technology;
         try {
 
-            technology = technologyService.getTechnologyInfo(userId);
+            technology = technologyService.getTechnologyInfo(userId, technologyId);
 
         } catch (Exception e) {
             resultInfo.setMessage("获取用户信息异常！");

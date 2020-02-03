@@ -80,10 +80,11 @@ public interface TechnologyService {
     /**
      * 根据用户id获取技术人员详情
      *
-     * @param userId 用户id
+     * @param userId       用户id
+     * @param technologyId 大师id
      * @return RsTechnology
      */
-    RsTechnology getTechnologyInfo(Integer userId);
+    RsTechnology getTechnologyInfo(Integer userId, Integer technologyId);
 
     /**
      * 通过技术人员类型id获取技术人员信息

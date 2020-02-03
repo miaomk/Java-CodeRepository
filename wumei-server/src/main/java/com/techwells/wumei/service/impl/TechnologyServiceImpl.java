@@ -1,9 +1,6 @@
 package com.techwells.wumei.service.impl;
 
-import com.techwells.wumei.dao.TechnologyCaseMapper;
-import com.techwells.wumei.dao.TechnologyEvaluateMapper;
-import com.techwells.wumei.dao.TechnologyMapper;
-import com.techwells.wumei.dao.UserMapper;
+import com.techwells.wumei.dao.*;
 import com.techwells.wumei.domain.Technology;
 import com.techwells.wumei.domain.User;
 import com.techwells.wumei.domain.rs.RsTechnology;
@@ -46,7 +43,8 @@ public class TechnologyServiceImpl implements TechnologyService {
     private TechnologyEvaluateMapper evaluateMapper;
     @Resource
     private TechnologyCaseMapper caseMapper;
-
+    @Resource
+    private CollectMapper collectMapper;
 
     private static final String SPLIT = ",";
 
@@ -224,20 +222,24 @@ public class TechnologyServiceImpl implements TechnologyService {
 
     @Override
     @Transactional(readOnly = true)
-    public RsTechnology getTechnologyInfo(Integer userId) {
+    public RsTechnology getTechnologyInfo(Integer userId, Integer technologyId) {
         RsTechnology rsTechnology;
         try {
 
-            rsTechnology = technologyMapper.getTechnologyInfo(userId);
+            rsTechnology = technologyMapper.getTechnologyInfo(technologyId);
             if (rsTechnology == null) {
                 return null;
             }
             //入驻天数
-            rsTechnology.setEnterDay((int) Duration.between(rsTechnology.getCreatedDate(), LocalDateTime.now()).toDays());
-
+            rsTechnology.setEnterDay((int) Duration.between(rsTechnology.getCreatedDate(),
+                    LocalDateTime.now()).toDays());
+            //查询是否收藏
+            Integer queryFocus = collectMapper.getCollectId(String.valueOf(technologyId), String.valueOf(
+                    userId), 4);
+            rsTechnology.setCollectId(queryFocus);
             PagingTool pagingTool = new PagingTool(1, 1000);
             Map<String, Object> param = new HashMap<>(12);
-            param.put("technologyId", userId);
+            param.put("technologyId", technologyId);
             param.put("activated", 0);
             pagingTool.setParams(param);
             //查询用户评价数
@@ -267,10 +269,10 @@ public class TechnologyServiceImpl implements TechnologyService {
 
             } else {
 
-                rsTechnology.setAttitudeScore(new BigDecimal(5.0));
-                rsTechnology.setImageScore(new BigDecimal(5.0));
-                rsTechnology.setEffectScore(new BigDecimal(5.0));
-                rsTechnology.setOverallScore(new BigDecimal(5.0));
+                rsTechnology.setAttitudeScore(new BigDecimal("5.0"));
+                rsTechnology.setImageScore(new BigDecimal("5.0"));
+                rsTechnology.setEffectScore(new BigDecimal("5.0"));
+                rsTechnology.setOverallScore(new BigDecimal("5.0"));
             }
 
             //查询案例数

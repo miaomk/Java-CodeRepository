@@ -53,7 +53,7 @@ public interface FocusMapper {
      *
      * @param userId    用户id
      * @param relationId 被关注者id
-     * @param focusType 关注类型 1公司 2 用户
+     * @param focusType 关注类型 1公司 2 大师
      * @return int
      */
     int queryFocus(@Param("userId") Integer userId,

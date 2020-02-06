@@ -30,6 +30,8 @@
     <result column="case_id" jdbcType="INTEGER" property="caseId" />
     <result column="case_name" jdbcType="VARCHAR" property="caseName" />
     <result column="case_city" jdbcType="VARCHAR" property="caseCity" />
+    <result column="case_time" jdbcType="VARCHAR" property="caseTime" />
+    <result column="case_introduce" jdbcType="VARCHAR" property="caseIntroduce" />
     <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -284,6 +286,8 @@
     c.case_id,
     c.image_url,
     c.case_city,
+    c.case_time,
+    c.case_introduce,
     count(p.relation_id) AS pvCount
     FROM
     t_technology_case c

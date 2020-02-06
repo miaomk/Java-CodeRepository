@@ -253,10 +253,12 @@ public class TechnologyController {
             resultInfo.setCode("10001");
             return resultInfo;
         }
+        //查询最新大师信息
+        Technology newestTechnology = technologyService.getTechnologyByTechnologyId(technology.getUserId());
 
         log.info("修改大师成功");
         resultInfo.setMessage("修改大师成功！");
-        resultInfo.setData(count);
+        resultInfo.setData(newestTechnology);
         return resultInfo;
     }
 

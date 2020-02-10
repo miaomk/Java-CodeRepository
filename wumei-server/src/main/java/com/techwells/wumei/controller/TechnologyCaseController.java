@@ -105,7 +105,7 @@ public class TechnologyCaseController {
      * @param technologyCaseId 工作案例id
      * @return ResultInfo
      */
-    @RequestMapping(value = "deleteTechnologyCase", method = RequestMethod.POST)
+    @RequestMapping(value = "deleteTechnologyCase")
     public ResultInfo deleteTechnologyCase(@RequestParam("technologyCaseId") Integer technologyCaseId) {
         ResultInfo resultInfo = new ResultInfo();
         if (null == technologyCaseId) {
